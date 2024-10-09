@@ -1,4 +1,4 @@
-# Programa: PruebaSecuencia.py
+# Programa: Clase_libro.py
 # Objetivo: Clase que modela un Libro.
 # Autores: Milena Rivera, Carlos Barrera, Isaac Garrido, Mayela Rosas
 # Version: 09-10-2024
