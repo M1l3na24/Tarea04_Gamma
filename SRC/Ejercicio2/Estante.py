@@ -1,7 +1,7 @@
 # Programa: Estante.py
 # Objetivo: Clase que modela un Estante.
 # Autores: Milena Rivera, Carlos Barrera, Isaac Garrido, Mayela Rosas
-# Version: 09-10-2024
+# Version: 10-10-2024
 
 import Repisa_Pila as Rp
 import Repisa_Lista as Rl
@@ -24,31 +24,31 @@ class Estante:
                            ordenar los Libros.
         :return: Repisa 3 ordenada
         """
-        # Verifico que mis repisas 1 y 2 no esten vacias
-        if not self.__repisa1.esta_vacia() and not self.__repisa2.esta_vacia():
+        # Comienza sacando libros de la repisa 1
+
+        # Verifico que mi repisas 1 no este vacias
+        if not self.__repisa1.esta_vacia():
             # Aplico politica LIFO
             libro1_sacado = self.__repisa1.pop()
             # verifico si es el primer libro que meto a la repisa 3
             if self.__repisa3.esta_vacia():
                 self.__repisa3.agregar(libro1_sacado)
-            else: # caso donde ya hay al menos 1 libro en la repisa
-                # Primero saco las
-                while not self.__repisa1.esta_vacia(): # lo hago m veces
-                    libro1 = self.__repisa1.top
-                    libro22 = self.__repisa2.top
+            else:  # caso donde ya hay al menos 1 libro en la repisa
+                while not self.__repisa1.esta_vacia():  # lo hago m veces
+                    libros = self.__repisa3
+                    libro2 = self.__repisa1.top
                 # empiezo a comparar para meterlo en orden
-                if comparador(libro_x_sacar1, libro_x_sacar2) > 0: # Esta 'ordenado'
-                    self.__repisa3.agregar(libro1_sacado)
+                    for i in range(libros.ne):
 
-                elif comparador(libro_x_sacar1, libro_x_sacar2) < 0: # Esta 'desordenado'
-                    pass
-
-                else: # == 0 - son el mismo libro
-                    pass
-
+                        if comparador(libros[i], libro2) > 0:
+                            posicion =
+                            self.__repisa3.agregar(libro2) # lo agrego antes (libro2, libro1)
+                    elif comparador(libro1, libro2) < 0: # lo agrego despues  (libro1, libro2)
+                        self.__repisa3.agregar_intermedio(libro2,i)
 
 
 
+                    else:  # == 0 - son el mismo libro
 
         else:
             raise Exception("Hay una de las 2 repisas (1,2) vacia.")

@@ -15,6 +15,7 @@ class RepisaLista(Il.Listable):
         """
         self.__inicio = None
         self.__final = None
+        self.__ne = 0  # para saber cuantos libros tengo
 
     @property
     def inicio(self) -> Cn.Nodo:
@@ -50,7 +51,24 @@ class RepisaLista(Il.Listable):
         """
         self.__final = final
 
-    def agregar(self, elemento: Cl.Libro):
+    @property
+    def ne(self) -> int:
+        """
+        Metodo GET para devolver el numero de libros en la Repisa
+        :return: El numero de libros en la Repisa
+        :rtype: int
+        """
+        return self.__ne
+
+    @ne.setter
+    def ne(self, ne: int):
+        """
+        Metodo SET para definir un nuevo numero de libros en la Repisa
+        :param ne: int - El nuevo numero de libros en la Repisa
+        """
+        self.__ne = ne
+
+    def agregar(self, elemento: Cn.Nodo):
         """
         Metodo que permite agregar un libro al inicio de la Lista.
         Complejidad: O(1)
@@ -59,11 +77,13 @@ class RepisaLista(Il.Listable):
         if self.inicio is None:
             self.inicio = Cn.Nodo(elemento, self.inicio, self.final)
             self.final = self.inicio
+            self.ne += 1
         else:
             self.inicio = Cn.Nodo(elemento, self.inicio, self.inicio.anterior)
             self.inicio.siguiente.anterior = self.inicio
+            self.ne += 1
 
-    def agregar_final(self, elemento: Cl.Libro):
+    def agregar_final(self, elemento: Cn.Nodo):
         """
         Metodo que permite agregar un libro al final de la lista.
         Complejidad: O(1)
@@ -72,11 +92,13 @@ class RepisaLista(Il.Listable):
         if self.final is None:
             self.final = Cn.Nodo(elemento, self.inicio, self.final)
             self.inicio = self.final
+            self.ne += 1
         else:
             self.final = Cn.Nodo(elemento, self.final.siguiente, self.final)
             self.final.anterior.siguiente = self.final
+            self.ne += 1
 
-    def agregar_intermedio(self, elemento: Cl.Libro, posicion: int):
+    def agregar_intermedio(self, elemento: Cn.Nodo, posicion: int):
         """
         Metodo que permite insertar un libro en la posicion
         deseada.
@@ -95,12 +117,15 @@ class RepisaLista(Il.Listable):
             c += 1
         if pos is None:
             self.agregar_final(elemento)
+            self.ne += 1
         elif pos == self.inicio:
             self.agregar(elemento)
+            self.ne += 1
         else:
             nodo_a = Cn.Nodo(elemento, pos, pos.anterior)
             pos.anterior.siguiente = nodo_a
             pos.anterior = nodo_a
+            self.ne += 1
 
     def eliminar(self, elemento: Cl.Libro):
         """
@@ -117,12 +142,15 @@ class RepisaLista(Il.Listable):
         if pos == self.inicio:  # Es el inicio de la lista
             self.inicio = self.inicio.siguiente
             self.inicio.anterior = None
+            self.ne -= 1
         elif pos == self.final:  # Es el final de la lista
             self.final = self.final.anterior
             self.final.siguiente = None
+            self.ne -= 1
         else:
             pos.anterior.siguiente = pos.siguiente
             pos.siguiente.anterior = pos.anterior
+            self.ne -= 1
 
     def contiene(self, libro: Cl.Libro) -> bool:
         """
