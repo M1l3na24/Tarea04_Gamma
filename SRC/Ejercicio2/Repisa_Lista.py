@@ -1,5 +1,3 @@
-# Carlos aqui vas a simular la repisa 3
-
 # Programa: Repisa_Lista.py
 # Objetivo: Clase que modela una Repisa como una Lista doblemente ligada (es para el estante 3).
 # Autores: Milena Rivera, Carlos Barrera, Isaac Garrido, Mayela Rosas
