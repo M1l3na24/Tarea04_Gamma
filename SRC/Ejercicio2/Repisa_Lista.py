@@ -1,21 +1,20 @@
 # Programa: Repisa_Lista.py
 # Objetivo: Clase que modela una Repisa como una Lista doblemente ligada (es para el estante 3).
 # Autores: Milena Rivera, Carlos Barrera, Isaac Garrido, Mayela Rosas
-# Version: 09-10-2024
+# Version: 10-10-2024
 
 import Clase_Nodo as Cn
 import Clase_Libro as Cl
 import Interfaz_Listable as Il
 
-# HAY QUE MODIFICARLO PORQUE NECESITA SER DOBLEMENTE LIGADA PARA PODER INSERTAR EN ORDEN
-
 
 class RepisaLista(Il.Listable):
     def __init__(self):
         """
-        Constructor por omision de una repisa com Lista simplemente ligada.
+        Constructor por omision de una repisa com Lista doblemente ligada.
         """
         self.__inicio = None
+        self.__final = None
 
     @property
     def inicio(self) -> Cn.Nodo:
@@ -26,32 +25,104 @@ class RepisaLista(Il.Listable):
         """
         return self.__inicio
 
-    def agregar(self, libro: Cl.Libro):
+    @inicio.setter
+    def inicio(self, inicio: Cn.Nodo):
         """
-        Metodo que permite agregar un elemento (libro) al inicio de la repisa (lista).
-        Complejidad: O(1)
-        :param libro: El libro que se va a almacenar en el Nodo
+        Metodo SET para definir un nuevo inicio
+        :param inicio: Cn.Nodo - El nuevo nodo (libro) inicio
         """
-        self.__inicio = Cn.Nodo(libro, self.__inicio)
+        self.__inicio = inicio
 
-    def eliminar(self, libro: Cl.Libro):
+    @property
+    def final(self) -> Cn.Nodo:
+        """
+        Metodo GET para devolver el nodo (libro) final
+        :return: El nodo (libro) final
+        :rtype: Cn.Nodo
+        """
+        return self.__final
+
+    @final.setter
+    def final(self, final: Cn.Nodo):
+        """
+        Metodo SET para definir un nuevo nodo (libro) final
+        :param final: Cn.Nodo - El nuevo nodo (libro) final
+        """
+        self.__final = final
+
+    def agregar(self, elemento: Cl.Libro):
+        """
+        Metodo que permite agregar un libro al inicio de la Lista.
+        Complejidad: O(1)
+        :param elemento: El libro que se va a almacenar en el Nodo
+        """
+        if self.inicio is None:
+            self.inicio = Cn.Nodo(elemento, self.inicio, self.final)
+            self.final = self.inicio
+        else:
+            self.inicio = Cn.Nodo(elemento, self.inicio, self.inicio.anterior)
+            self.inicio.siguiente.anterior = self.inicio
+
+    def agregar_final(self, elemento: Cl.Libro):
+        """
+        Metodo que permite agregar un libro al final de la lista.
+        Complejidad: O(1)
+        :param elemento: El libro que se va a almacenar en el Nodo
+        """
+        if self.final is None:
+            self.final = Cn.Nodo(elemento, self.inicio, self.final)
+            self.inicio = self.final
+        else:
+            self.final = Cn.Nodo(elemento, self.final.siguiente, self.final)
+            self.final.anterior.siguiente = self.final
+
+    def agregar_intermedio(self, elemento: Cl.Libro, posicion: int):
+        """
+        Metodo que permite insertar un libro en la posicion
+        deseada.
+        Complejidad: O(n)
+        :param elemento: El elemento a insertar,
+        :param posicion: La posicion donde se desea insertar
+        :return T: El Nodo que se desea insertar, None en caso de que la
+        posicion sea un numero menor a 1.
+        """
+        pos = self.inicio
+        c = 1
+        if posicion < 1:
+            return
+        while pos is not None and c < posicion:
+            pos = pos.siguiente
+            c += 1
+        if pos is None:
+            self.agregar_final(elemento)
+        elif pos == self.inicio:
+            self.agregar(elemento)
+        else:
+            nodo_a = Cn.Nodo(elemento, pos, pos.anterior)
+            pos.anterior.siguiente = nodo_a
+            pos.anterior = nodo_a
+
+    def eliminar(self, elemento: Cl.Libro):
         """
         Metodo que permite eliminar la primera ocurrencia de un libro.
-        Complejidad: O(n^2)
-        :param libro: El libro a eliminar
+        Complejidad: O(n)
+        :param elemento: El libro a eliminar
         :return T: El Nodo que lo contiene, None en caso contrario
         """
-        pos = self.__inicio
-        anterior = None
-        while pos is not None and not pos.elemento == libro:
-            anterior = pos
+        pos = self.inicio
+        while pos is not None and not pos.elemento == elemento:
             pos = pos.siguiente
         if pos is None:
-            return  # No lo encontró
-        if pos == self.__inicio:  # Es el inicio de la lista
-            self.__inicio = self.__inicio.siguiente
+            return  # No lo encontro
+        if pos == self.inicio:  # Es el inicio de la lista
+            self.inicio = self.inicio.siguiente
+            self.inicio.anterior = None
+        elif pos == self.final:  # Es el final de la lista
+            self.final = self.final.anterior
+            self.final.siguiente = None
         else:
-            anterior.siguiente = pos.siguiente
+            pos.anterior.siguiente = pos.siguiente
+            pos.siguiente.anterior = pos.anterior
 
     def contiene(self, libro: Cl.Libro) -> bool:
         """
@@ -67,15 +138,29 @@ class RepisaLista(Il.Listable):
     def buscar(self, libro: Cl.Libro) -> Cn.Nodo:
         """
         Metodo que busca el Nodo que contiene el libro pasado como
-        parametro.
+        parametro comenzando en inicio.
         Complejidad: O(n).
         :param libro: El libro a buscar
         :return: El Nodo que contiene el elemento, None en caso contrario
-        :rtype: bool
+        :rtype: Cn.Nodo
         """
         pos = self.__inicio
         while pos is not None and not pos.elemento == libro:
             pos = pos.siguiente
+        return pos
+
+    def buscar_final(self, libro: Cl.Libro) -> Cn.Nodo:
+        """
+        Metodo que busca el Nodo que contiene en el libro pasado como
+        parametro comenzando desde final.
+        Complejidad: O(n).
+        :param libro: El libro a buscar
+        :return: El Nodo que contiene el elemento, None en caso contrario
+        :rtype: Cn.Nodo
+        """
+        pos = self.final
+        while pos is not None and not pos.elemento == libro:
+            pos = pos.anterior
         return pos
 
     def esta_vacia(self) -> bool:
@@ -94,14 +179,29 @@ class RepisaLista(Il.Listable):
         Complejidad: O(1)
         """
         self.__inicio = None
+        self.__final = None
 
     def primero(self):
         """
         Metodo que devuelve el primer Libro de la Repisa.
         Complejidad: O(1)
+        :return: El primer Libro
+        :rtype: Cl.Libro
         """
         if not self.esta_vacia():
             return self.__inicio
+        else:
+            return None
+
+    def ultimo(self):
+        """
+        Metodo que devuelve el ultimo Libro de la Repisa.
+        Complejidad: O(1)
+        :return: El ultimo Libro
+        :rtype: Cl.Libro
+        """
+        if not self.esta_vacia():
+            return self.final.elemento
         else:
             return None
 
@@ -143,6 +243,8 @@ class RepisaLista(Il.Listable):
     def __iter__(self):
         """
         Metodo que permite inicializar el iterador de la Lista
+        Nota: Para esta lista solo consideramos el recorrer la lista comenzando
+        en el inicio.
         :return: Un objeto iterable
         """
         self.pos = self.__inicio

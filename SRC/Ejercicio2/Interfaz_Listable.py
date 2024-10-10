@@ -79,6 +79,14 @@ class Listable(metaclass=ABCMeta):
         pass
 
     @abstractmethod
+    def ultimo(self) -> T:
+        """
+        Método que devuelve el ultimo Nodo de la Lista.
+        Complejidad: O(1)
+        """
+        pass
+
+    @abstractmethod
     def sustituir(self, original: T, nuevo: T):
         """
         Sustituye el valor actual de un Nodo por otro nuevo. Se usa el
