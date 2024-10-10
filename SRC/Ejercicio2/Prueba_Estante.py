@@ -8,41 +8,32 @@ import Repisa_Pila as Rp
 import Clase_Libro as Cl
 import csv
 
-# Es de la tarea 03 solo hay que ajustarlo
 
-
-def leer_archivo(archivoo: str) -> Cs.Secuencia:
+def leer_archivo(archivo: str) -> Rp.RepisaPila:
     """
-    Metodo para leer un archivo y construir una secuencia con dichos datos
-    :param archivoo: El nombre del archivo que se va a leer
-    :return: Una Secuencia con los datos leidos
+    Metodo para leer un archivo y construir una repisa con dichos datos
+    :param archivo: El nombre del archivo que se va a leer
+    :return: Una Repisa con los datos leidos
     """
-    secuencia = None
+    repisa = None
     existe = False  # El archivo no existe
     while not existe:
         try:
-            with open(archivoo, encoding="UTF8", newline="") as file:
-                lector = csv.reader(file)
-                size = sum(1 for _ in lector)  # Saber el numero de lineas
-                secuencia = Cs.Secuencia(size, "edad")  # Creamos el Conjunto de tamanio ad-hoc
-            with open(archivoo, encoding="UTF8", newline="") as file:
+            repisa = Rp.RepisaPila()  # Creamos una repisa vacia
+            with open(archivo, encoding="UTF8", newline="") as file:
                 lector = csv.reader(file)
                 lector.__next__()  # Salta la primera linea
                 for fila in lector:
-                    secuencia.agregar(Em.Empleado(fila[1],  # Nombre
-                                                  fila[2],  # Apellidos
-                                                  datetime.strptime(fila[3], "%d/%m/%Y").date(),  # Nacimiento
-                                                  fila[4],  # Correo
-                                                  int(fila[0]),  # Numero Empleado
-                                                  float(fila[5])))  # Salario
-                    id_emp1.add(int(fila[0]))
+                    repisa.push(Cl.Libro(fila[1],  # Titulo
+                                         fila[2],  # Autor
+                                         fila[2],  # Editorial
+                                         int(fila[4])))  # Anio de publicacion
                 existe = True
-                print(f"El archivo {archivoo} se leyo exitosamente!\n")
+                print(f"El archivo {archivo} se leyo exitosamente!\n")
         except FileNotFoundError:
             print("El archivo no existe!\n")
-            archivoo = input("Escribe el nombre del archivo CSV "
-                             "(incluyendo la extension del tipo de archivo '.csv'): ")
-    return secuencia
+            archivo = input("Escribe el nombre del archivo CSV: ")
+    return repisa
 
 
 def crear_libro() -> Cl.Libro:
@@ -50,7 +41,6 @@ def crear_libro() -> Cl.Libro:
     Metodo para solicitar los datos y crear un libro.
     :return: Un objeto Libro
     """
-    libro = None
     titulo = input("Escribe el titulo: ")
     autor = input("Escribe el autor: ")
     editorial = input("Escribe la editorial: ")
@@ -83,34 +73,84 @@ def menu_ordenar() -> str:
 # Aqui iran los Metodos comparadores entre libros. (titulo, autor, editorial)
 
 
+def titulo(a: Cl.Libro, b: Cl.Libro) -> int:
+    """
+    Comparador que define como se distinguen 2 libros entre si,
+    a partir de su titulo.
+    :param a: Libro
+    :param b: Libro
+    :return: -1 si el titulo del libro a es alfabeticamente menor que
+    el titulo de b, 1 en caso contrario y 0 si son titulos identicos.
+    """
+    if a.titulo < b.titulo:
+        return -1
+    elif a.titulo > b.titulo:
+        return 1
+    else:
+        return 0
 
-# Aqui comienza la interfaz, la tengo que corregir
+
+def autor(a: Cl.Libro, b: Cl.Libro) -> int:
+    """
+    Comparador que define como se distinguen 2 libros entre si,
+    a partir de su autor.
+    :param a: Libro
+    :param b: Libro
+    :return: -1 si el autor del libro a es alfabeticamente menor que
+    el autor de b, 1 en caso contrario y 0 si son autores identicos.
+    """
+    if a.autor < b.autor:
+        return -1
+    elif a.autor > b.autor:
+        return 1
+    else:
+        return 0
+
+
+def editorial(a: Cl.Libro, b: Cl.Libro) -> int:
+    """
+    Comparador que define como se distinguen 2 libros entre si,
+    a partir de su editorial.
+    :param a: Libro
+    :param b: Libro
+    :return: -1 si la editorial del libro a es alfabeticamente menor que
+    la editorial de b, 1 en caso contrario y 0 si son editoriales identicas.
+    """
+    if a.editorial < b.editorial:
+        return -1
+    elif a.editorial > b.editorial:
+        return 1
+    else:
+        return 0
+
+# Aqui comienza la interfaz HAY QUE CORREGIRLA PORQUE LA COPIE DE LA TAREA 3
 
 
 while True:
-    print("1. Crear una Secuencia")
-    print("2. Agregar un elemento a la Secuencia")
-    print("3. Agregar un elemento n veces a la Secuencia")
-    print("4. Llenar nueva Secuencia desde archivo")
-    print("5. Eliminar un elemento de la Secuencia")
-    print("6. Eliminar un elemento n veces de la Secuencia")
-    print("7. Determinar si una Secuencia contiene un elemento")
-    print("8. Determinar el numero de repeticiones de un elemento en la Secuencia")
-    print("9. Determinar si la Secuencia esta vacia")
-    print("10. Determinar la cardinalidad de la Secuencia")
-    print("11. Vaciar la Secuencia")
-    print("12. Devolver la Secuencia con elementos unicos")
-    print("13. Ordenar la Secuencia")
-    print("14. Mostrar la Secuencia")
-    print("15. Crear una segunda Secuencia desde archivo")
-    print("16. Determinar si mis dos secuencias son iguales")
+
+    print("1. Crear mi estante de 3 repisas")
+    print("2. Llenar mi repisa 1")
+    print("3. Llenar mi repisa 2")
+    print("4. Ordenar los libros en la tercera repisa")
+    print("5. Eliminar un libro en la repisa 3")
+    print("6. Agregar un libro en la repisa 1")
+    print("7. Agregar un libro en la repisa 2")
+    print("8. Agregar un libro en la repisa 3")
+    print("9. Sacar un libro de la repisa 1")
+    print("10. Sacar un libro de la repisa 2")
+    print("11. Sacar un libro de la repisa 3")
+    print("12. Mostrar repisa 1")
+    print("13. Mostrar repisa 2")
+    print("14. Mostrar repisa 3")
+    print("15. Mostrar estante completo")
+    print("16. Guardar en archivo Lista de libros ordenados")
     print("[S]alir")
     accion = input("¿Que deseas hacer?: ").upper()
     if accion not in "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,S" or len(accion) > 2:
         print("No se que deseas hacer!\n")
         continue
     match accion:
-        case "1":  # Crear una secuencia
+        case "1":  # Crear mi estante de 3 repisas
             try:
                 print("1. Tamaño estandar")
                 print("2. Definido por el usuario")

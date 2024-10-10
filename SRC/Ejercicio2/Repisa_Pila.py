@@ -6,16 +6,13 @@
 import Interfaz_Apilable as Ia
 import Clase_Libro as Cl
 import Clase_Nodo as Cn
-from typing import TypeVar
-
-T = TypeVar('T')
 
 
-class Repisa_Pila(Ia.Apilable):
+class RepisaPila(Ia.Apilable):
     def __init__(self):
         """
         Constructor que inicializa una repisa vacia como una Pila.
-        Los nodos son libros
+        Los nodos son libros.
         """
         self.__top = None
 
@@ -28,14 +25,14 @@ class Repisa_Pila(Ia.Apilable):
         """
         return self.__top
 
-    def push(self, elemento: T):
+    def push(self, libro: Cl.Libro):
         """
         Metodo que permite agregar un elemento en el tope de la Pila.
         (Agregar un libro a la Repisa)
         Complejidad: O(1)
-        :param elemento: El elemento que se va a almacenar en el Nodo
+        :param libro: El elemento que se va a almacenar en el Nodo
         """
-        self.__top = Cn.Nodo(elemento, self.__top)
+        self.__top = Cn.Nodo(libro, self.__top)
 
     def pop(self):
         """
@@ -82,29 +79,29 @@ class Repisa_Pila(Ia.Apilable):
         """
         self.__top = None
 
-    def contiene(self, elemento: T) -> bool:
+    def contiene(self, libro: Cl.Libro) -> bool:
         """
         Metodo que permite saber si un elemento se encuentra contenido
         dentro de la Pila. Este metodo no afecta el estado de la Pila
         (Verificar que un libro esta en la repisa)
         Complejidad: O(n).
-        :param elemento: El elemento a buscar
+        :param libro: El libro a buscar
         :return: True si lo encontro, False en otro caso.
         :rtype: bool
         """
-        return self.buscar(elemento) is not None
+        return self.buscar(libro) is not None
 
-    def buscar(self, elemento: T) -> Cn.Nodo:
+    def buscar(self, libro: Cl.Libro) -> Cn.Nodo:
         """
         Metodo que busca el Nodo que contiene en el elemento pasado como
         parametro. Este metodo no afecta el estado de la Repisa.
         Complejidad: O(n).
-        :param elemento: El elemento a buscar
+        :param libro: El elemento a buscar
         :return: El Nodo que contiene el elemento, None en caso contrario
         :rtype: bool
         """
         pos = self.__top
-        while pos is not None and not pos.elemento == elemento:
+        while pos is not None and not pos.elemento == libro:
             pos = pos.siguiente
         return pos
 
@@ -133,7 +130,7 @@ class Repisa_Pila(Ia.Apilable):
         self.pos = self.__top
         return self
 
-    def __next__(self) -> T:
+    def __next__(self) -> Cl.Libro:
         """
         Metodo que permite obtener el siguiente elemento (libro) de la Repisa
         :return: El siguiente elemento de la Lista
