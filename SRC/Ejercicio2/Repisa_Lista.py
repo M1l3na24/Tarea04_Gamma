@@ -9,6 +9,7 @@ import Interfaz_Listable as Il
 
 # HAY QUE MODIFICARLO PORQUE NECESITA SER DOBLEMENTE LIGADA PARA PODER INSERTAR EN ORDEN
 
+
 class RepisaLista(Il.Listable):
     def __init__(self):
         """
