@@ -70,7 +70,7 @@ def menu_ordenar() -> str:
             break
     return opcionn
 
-# Aqui iran los Metodos comparadores entre libros. (titulo, autor, editorial)
+# Metodos comparadores entre libros. (titulo, autor, editorial)
 
 
 def titulo(a: Cl.Libro, b: Cl.Libro) -> int:
