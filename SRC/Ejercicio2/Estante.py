@@ -17,7 +17,7 @@ class Estante:
         self.__repisa2 = Rp.RepisaPila()
         self.__repisa3 = Rl.RepisaLista()
 
-    def ordenar_repisa3(self, comparador: callable):
+    def ordenar_en_repisa3(self, comparador: callable):
         """
         Metodo que permitira ordenar los Libros en la repisa 3.
         :param comparador: Es el tipo de comparador que se utilizara para
