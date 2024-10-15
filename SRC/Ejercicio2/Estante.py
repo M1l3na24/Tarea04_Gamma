@@ -3,9 +3,8 @@
 # Autores: Milena Rivera, Carlos Barrera, Isaac Garrido, Mayela Rosas
 # Version: 10-10-2024
 
-import Repisa_Pila as Rp
 import Repisa_Lista as Rl
-
+import Repisa_Pila as Rp
 
 class Estante:
     def __init__(self):
@@ -17,6 +16,68 @@ class Estante:
         self.__repisa2 = Rp.RepisaPila()
         self.__repisa3 = Rl.RepisaLista()
 
+    # Metodos Get
+    @property
+    def repisa1(self):
+        """
+        Metodo GET para devolver la pila de la primer repisa.
+        return: La primer repisa
+        :rtype: Rp.RepisaPila
+        """
+        return self.__repisa1
+
+    @property
+    def repisa2(self):
+        """
+        Metodo GET para devolver la pila de la segunda repisa.
+        return: La segunda repisa
+        :rtype: Rp.RepisaPila
+        """
+        return self.__repisa2
+
+    @property
+    def repisa3(self):
+        """
+        Metodo GET para devolver la pila de la tercer repisa.
+        return: La tercer repisa
+        :rtype: Rp.RepisaPila
+        """
+        return self.__repisa3
+
+    # Métodos set
+    @repisa1.setter
+    def repisa1(self, nueva_repisa):
+        """
+        Metodo que permite establecer una nueva primer repisa
+        :param nueva_repisa:
+        """
+        if isinstance(nueva_repisa, Rp.RepisaPila):
+            self.__repisa1 = nueva_repisa
+        else:
+            raise TypError
+
+    @repisa2.setter
+    def repisa2(self, nueva_repisa):
+        """
+        Metodo que permite establecer una nueva segunda repisa
+        :param nueva_repisa:
+        """
+        if isinstance(nueva_repisa, Rp.RepisaPila):
+            self.__repisa2 = nueva_repisa
+        else:
+            raise TypError
+
+    @repisa3.setter
+    def repisa3(self, nueva_repisa):
+        """
+        Metodo que permite establecer una nueva tercer repisa
+        :param nueva_repisa:
+        """
+        if isinstance(nueva_repisa, Rp.RepisaPila):
+            self.__repisa3 = nueva_repisa
+        else:
+            raise TypError
+
     def ordenar_en_repisa3(self, comparador: callable):
         """
         Metodo que permitira ordenar los Libros en la repisa 3.
@@ -24,31 +85,22 @@ class Estante:
                            ordenar los Libros.
         :return: Repisa 3 ordenada
         """
-        # Comienza sacando libros de la repisa 1
+        # Mientras la repisa 1 no este vacia
+        while not self.__repisa1.esta_vacia():
+            libro_sacado = self.__repisa1.pop()
+            print(type(libro_sacado))
+            self.__repisa3.agregar_ordenado(libro_sacado, comparador)
 
-        # Verifico que mi repisas 1 no este vacias
-        if not self.__repisa1.esta_vacia():
-            # Aplico politica LIFO
-            libro1_sacado = self.__repisa1.pop()
-            # verifico si es el primer libro que meto a la repisa 3
-            if self.__repisa3.esta_vacia():
-                self.__repisa3.agregar(libro1_sacado)
-            else:  # caso donde ya hay al menos 1 libro en la repisa
-                while not self.__repisa1.esta_vacia():  # lo hago m veces
-                    libros = self.__repisa3
-                    libro2 = self.__repisa1.top
-                # empiezo a comparar para meterlo en orden
-                    for i in range(libros.ne):
+        # Mientras la repisa 2 no este vacia
+        while not self.__repisa2.esta_vacia():
+            libro_sacado = self.__repisa1.pop()
+            self.__repisa3.agregar_ordenado(libro_sacado, comparador)
 
-                        if comparador(libros[i], libro2) > 0:
-                            posicion =
-                            self.__repisa3.agregar(libro2) # lo agrego antes (libro2, libro1)
-                    elif comparador(libro1, libro2) < 0: # lo agrego despues  (libro1, libro2)
-                        self.__repisa3.agregar_intermedio(libro2,i)
-
-
-
-                    else:  # == 0 - son el mismo libro
-
-        else:
-            raise Exception("Hay una de las 2 repisas (1,2) vacia.")
+    def __str__(self):
+        """
+        Método que permite imprimir el estante en formato cadena
+        :return: La repisa en formato cadena de caracteres
+        :rtype: str
+        """
+        return ("\nRepisa 1: \n" + self.__repisa1.__str__() + "\nRepisa 2: \n" + self.__repisa2.__str__() +
+                "\nRepisa 3: \n" + self.__repisa3.__str__() + "\n")
