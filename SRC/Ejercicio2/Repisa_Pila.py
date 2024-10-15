@@ -40,7 +40,7 @@ class RepisaPila(Ia.Apilable):
         tope de la Pila. (Sacar un libro de la Repisa con la politica LIFO)
         Complejidad: O(1)
         :return: El elemento del tope de la Pila, None si la pila esta vacia
-        :rtype: T
+        :rtype: Cl.Libro
         """
         if self.esta_vacia():
             return None
@@ -113,11 +113,11 @@ class RepisaPila(Ia.Apilable):
         """
         # Utilizando el iterador
         it1 = iter(self)
-        pila = "Repisa: "
+        pila = ""
         try:
             while True:
                 elem = next(it1)
-                pila += str(elem) + ", "
+                pila += str(elem) + "\n "
         except StopIteration:
             pass
         return pila

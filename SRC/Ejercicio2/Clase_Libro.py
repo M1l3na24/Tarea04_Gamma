@@ -95,7 +95,7 @@ class Libro:
         :return: El Libro en formato str
         :rtype: str
         """
-        return ("Libro: {} {} | Autor: {} | "
+        return ("Libro: {} | Autor: {} | "
                 "Editorial: {} | Anio de Publicacion: {}").format(self.__titulo,
                                                                   self.__autor,
                                                                   self.__editorial,
