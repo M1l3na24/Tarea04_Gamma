@@ -185,8 +185,8 @@ if __name__ == "__main__":
                                     sueldo = float(input("Escribe el sueldo del contacto que deseas buscar: "))
                                     directorio.mostrar_contactos_por_sueldo(sueldo)
                                 case "4":
-                                    print("Se mostraran si hay, todos los contactos con email: ")
-                                    directorio.mostrar_contactos_con_email()
+                                    email = input("Escribe el email del contacto: ")
+                                    directorio.mostrar_contactos_con_email(email)
                                 case '5':
                                     carrera = input("Escribe la carrera relacionada al contacto que deseas buscar: ")
                                     directorio.mostrar_contactos_por_carrera(carrera)
@@ -274,8 +274,8 @@ if __name__ == "__main__":
                                     sueldo = float(input("Escribe el sueldo del contacto que deseas buscar: "))
                                     directorio.mostrar_contactos_por_sueldo(sueldo)
                                 case "4":
-                                    print("Se mostraran si hay, todos los contactos con email: ")
-                                    directorio.mostrar_contactos_con_email()
+                                    email = input("Escribe el email del contacto: ")
+                                    directorio.mostrar_contactos_con_email(email)
                                 case '5':
                                     carrera = input("Escribe la carrera relacionada al contacto que deseas buscar: ")
                                     directorio.mostrar_contactos_por_carrera(carrera)
