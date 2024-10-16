@@ -127,18 +127,23 @@ class RepisaLista(Il.Listable):
             self.ne += 1
 
     def agregar_ordenado(self, elem: Cl.Libro, comparador: callable):
+        """
+        Metodo que permite agregar un libro a la lista de forma que quede ordenada.
+        Complejidad: O(1)
+        :param elemento: El libro que se va a almacenar en el Nodo
+        """
         pos = self.inicio
         while pos is not None:
             if comparador(elem, pos.elemento) <= 0:
                 if pos == self.inicio:
                     self.agregar(elem)
-                    break
+                    return
                 else:
                     nodo_a = Cn.Nodo(elem, pos, pos.anterior)
                     pos.anterior.siguiente = nodo_a
                     pos.anterior = nodo_a
                     self.ne += 1
-                    break
+                    return
             pos = pos.siguiente
         self.agregar_final(elem)
 

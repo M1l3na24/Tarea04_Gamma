@@ -85,15 +85,15 @@ class Estante:
                            ordenar los Libros.
         :return: Repisa 3 ordenada
         """
+        self.__repisa3.vaciar()
         # Mientras la repisa 1 no este vacia
         while not self.__repisa1.esta_vacia():
             libro_sacado = self.__repisa1.pop()
-            print(type(libro_sacado))
             self.__repisa3.agregar_ordenado(libro_sacado, comparador)
 
         # Mientras la repisa 2 no este vacia
         while not self.__repisa2.esta_vacia():
-            libro_sacado = self.__repisa1.pop()
+            libro_sacado = self.__repisa2.pop()
             self.__repisa3.agregar_ordenado(libro_sacado, comparador)
 
     def __str__(self):

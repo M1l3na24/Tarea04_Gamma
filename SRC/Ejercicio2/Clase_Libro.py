@@ -89,6 +89,14 @@ class Libro:
         """
         self.__anio_publicacion = anio_publicacion
 
+    def __iter__(self):
+        """
+        Metodo que devuelve una representacion iterable del libro
+        :return: La representacion en formato Lista de un Libro
+        :rtype: iterable
+        """
+        return iter([self.titulo, self.__autor, self.__editorial, self.__anio_publicacion])
+
     def __str__(self):
         """
         Metodo que permite definir un Libro en formato cadena
