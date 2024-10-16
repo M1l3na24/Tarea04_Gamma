@@ -1,88 +1,10 @@
-# Programa: Prueba_Directorio.py
+# Programa: MiDirectorio.py
 # Autor: Milena Rivera, Carlos Barrera, Isaac Garrido, Mayela Rosas
 # Fecha: 15/10/2024
 # Version: 2
 # Descripcion: Programa que prueba el funcionamiento de la clase Directorio
 
 import claseDirectorio as cDir
-
-
-def menu_actualizar_coordinador() -> str:
-    """
-    Metodo auxiliar, que muestra en pantalla las opciones para actualizar un Profesor
-    :return: opcion: Int - La opcion deseada para actualizar
-    :rtype: Str
-    """
-    while True:
-        opcion = input('Que deseas actualizar:\n'
-                       '1. Nombre Completo\n'
-                       '2. Celular\n'
-                       '3. Fecha Cumpleanios\n'
-                       '4. Email\n'
-                       '5. Num. Empleado\n'
-                       '6. Tel. Oficina \n'
-                       '7. Sueldo\n'
-                       '8. Dept. Adscripcion\n'
-                       '9. Carrera que coordina\n'
-                       'S. Salir \n').upper()
-        if opcion not in '1,2,3,4,5,6,7,8,9,S' or len(opcion) != 1:
-            print("Opcion invalida.")
-            continue
-        else:
-            break
-    return opcion
-
-
-def menu_actualizar_profesor() -> str:
-    """
-    Metodo auxiliar, que muestra en pantalla las opciones para actualizar un Profesor
-    :return: opcion: Int - La opcion deseada para actualizar
-    :rtype: Str
-    """
-    while True:
-        opcion = input('Que deseas actualizar:\n'
-                       '1. Nombre Completo\n'
-                       '2. Celular\n'
-                       '3. Fecha Cumpleanios\n'
-                       '4. Email\n'
-                       '5. Num. Profesor\n'
-                       '6. Tel. Oficina \n'
-                       '7. Sueldo\n'
-                       '8. Dept. Adscripcion\n'
-                       '9. Carrera donde imparte materias\n'
-                       '10. Grupos\n'
-                       'S. Salir \n').upper()
-        if opcion not in '1,2,3,4,5,6,7,8,9,10,S' or len(opcion) != 1:
-            print("Opcion invalida.")
-            continue
-        else:
-            break
-    return opcion
-
-
-def menu_actualizar_alumno() -> str:
-    """
-    Metodo auxiliar, que muestra en pantalla las opciones para actualizar un Alumno
-    :return: opcion: Int - La opcion deseada para actualizar
-    :rtype: Str
-    """
-    while True:
-        opcion = input('Que deseas actualizar:\n'
-                       '1. Nombre Completo\n'
-                       '2. Celular\n'
-                       '3. Fecha Cumpleanios\n'
-                       '4. Email\n'
-                       '5. Num. Cuenta\n'
-                       '6. Carrera \n'
-                       '7. Materias\n'
-                       '8. Semestre\n'
-                       'S. Salir \n').upper()
-        if opcion not in '1,2,3,4,5,6,7,8,S' or len(opcion) != 1:
-            print("Opcion invalida.")
-            continue
-        else:
-            break
-    return opcion
 
 
 def menu_principal() -> str:
@@ -261,8 +183,9 @@ if __name__ == "__main__":
                                     sueldo = float(input("Escribe el sueldo del contacto que deseas buscar: "))
                                     directorio.mostrar_contactos_por_sueldo(sueldo)
                                 case "4":
-                                    print("Se mostraran si hay, todos los contactos con email: ")
-                                    directorio.mostrar_contactos_con_email()
+                                    email = input("Escribe el correo del contacto que deseas buscar: ")
+                                    print(f"Se mostraran si hay, todos los contactos con email {email}: ")
+                                    directorio.mostrar_contactos_con_email(email)
                                 case '5':
                                     carrera = input("Escribe la carrera relacionada al contacto que deseas buscar: ")
                                     directorio.mostrar_contactos_por_carrera(carrera)
@@ -315,9 +238,11 @@ if __name__ == "__main__":
                                     directorio.buscar_contacto_celular(cel)
                         opcionn = ''
                     case 'S':
-                        # dir.guardar_Archivo() no tenemos este metodo
+                        nombre = input('Escribe el nombre del archivo con terminación csv con el que deseas guardar: ')
+                        directorio.escritura_csvs(nombre)
+                        print(f'El directorio se guardo en el archivo csv "{nombre}"')
                         print("Hasta luego")
-        case '2':  #  Cargar informacion del directorio
+        case '2':   # Cargar informacion del directorio
             print('Leer un archivo csv creara un Directorio nuevo.')
             directorio = cDir.Directorio()
             directorio.lectura_csvs()
@@ -338,7 +263,7 @@ if __name__ == "__main__":
                                     directorio.insertar_nuevo_coordinador()
                                 case 'S':
                                     print('Regresando al menu principal')
-                                    opcionn = " "
+                        opcionn = " "
                     case '2':
                         while opcionn != 'S':
                             opcionn = menu_mostrar_info()
@@ -354,62 +279,64 @@ if __name__ == "__main__":
                                     sueldo = float(input("Escribe el sueldo del contacto que deseas buscar: "))
                                     directorio.mostrar_contactos_por_sueldo(sueldo)
                                 case "4":
-                                    print("Se mostraran si hay, todos los contactos con email: ")
-                                    directorio.mostrar_contactos_con_email()
+                                    email = input("Escribe el correo del contacto que deseas buscar: ")
+                                    print(f"Se mostraran si hay, todos los contactos con email {email}: ")
+                                    directorio.mostrar_contactos_con_email(email)
                                 case '5':
                                     carrera = input("Escribe la carrera relacionada al contacto que deseas buscar: ")
                                     directorio.mostrar_contactos_por_carrera(carrera)
                                 case '6':
                                     eleccion = int(input("Escribe 0 si deseas ver a los alumnos "
-                                                 "o 1 si deseas ver a los profesores: "))
+                                                         "o 1 si deseas ver a los profesores: "))
                                     directorio.mostrar_alumnos_o_profesores(eleccion)
                                 case 'S':
                                     print('Regresando al menu principal')
-                                    opcionn = ''
+                        opcionn = ''
                     case '3':
-                while opcionn != 'S':
-                    opcionn = menu_eliminar()
-                    match opcionn:
-                        case '1':
-                            nombre = input("Escribe el nombre del contacto que deseas eliminar: ")
-                            directorio.eliminar_contacto(nombre)
-                        case '2':
-                            celular = int(input("Escribe el número de celular del "
-                                                "contacto que deseas eliminar: "))
-                            directorio.eliminar_cel(celular)
-                        case '3':
-                            email = input("Escribe el correo electrónico del contacto que deseas eliminar: ")
-                            directorio.eliminar_email(email)
-                        case 'S':
-                            print('Regresando al menu principal')
-                opcionn = ''
-            case '4':
-                while opcionn != 'S':
-                    opcionn = menu_actualizar()
-                    match opcionn:
-                        case '1':
-                            directorio.actualizar_alumno()
-                        case '2':
-                            directorio.actualizar_profesor()
-                        case '3':
-                            directorio.actualizar_coordinador()
-                        case 'S':
-                            print('Regresando al menu principal')
-                opcionn = ''
-            case '5':
-                while opcionn != 'S':
-                    opcionn = menu_buscar()
-                    match opcionn:
-                        case '1':
-                            cum = input("Escribe el cumpleaños del contacto que deseas buscar: ")
-                            directorio.buscar_contacto_cum(cum)
-                        case "2":
-                            cel = int(input("Escribe el número de celular del contacto que deseas buscar: "))
-                            directorio.buscar_contacto_celular(cel)
-                opcionn = ''
-            case 'S':
-                # dir.guardar_Archivo() no tenemos este metodo
-                print("Hasta luego")
-
+                        while opcionn != 'S':
+                            opcionn = menu_eliminar()
+                            match opcionn:
+                                case '1':
+                                    nombre = input("Escribe el nombre del contacto que deseas eliminar: ")
+                                    directorio.eliminar_contacto(nombre)
+                                case '2':
+                                    celular = int(input("Escribe el número de celular del "
+                                                        "contacto que deseas eliminar: "))
+                                    directorio.eliminar_cel(celular)
+                                case '3':
+                                    email = input("Escribe el correo electrónico del contacto que deseas eliminar: ")
+                                    directorio.eliminar_email(email)
+                                case 'S':
+                                    print('Regresando al menu principal')
+                        opcionn = ''
+                    case '4':
+                        while opcionn != 'S':
+                            opcionn = menu_actualizar()
+                            match opcionn:
+                                case '1':
+                                    directorio.actualizar_alumno()
+                                case '2':
+                                    directorio.actualizar_profesor()
+                                case '3':
+                                    directorio.actualizar_coordinador()
+                                case 'S':
+                                    print('Regresando al menu principal')
+                        opcionn = ''
+                    case '5':
+                        while opcionn != 'S':
+                            opcionn = menu_buscar()
+                            match opcionn:
+                                case '1':
+                                    cum = input("Escribe el cumpleaños del contacto que deseas buscar: ")
+                                    directorio.buscar_contacto_cum(cum)
+                                case "2":
+                                    cel = int(input("Escribe el número de celular del contacto que deseas buscar: "))
+                                    directorio.buscar_contacto_celular(cel)
+                        opcionn = ''
+                    case 'S':
+                        nombre = input('Escribe el nombre del archivo con terminación csv con el que deseas guardar: ')
+                        directorio.escritura_csvs(nombre)
+                        print(f'El directorio se guardo en el archivo csv "{nombre}"')
+                        print("Hasta luego")
         case 'S':
             print('Hasta luego')
