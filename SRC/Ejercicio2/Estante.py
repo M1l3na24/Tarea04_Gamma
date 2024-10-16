@@ -1,10 +1,10 @@
 # Programa: Estante.py
 # Objetivo: Clase que modela un Estante.
 # Autores: Milena Rivera, Carlos Barrera, Isaac Garrido, Mayela Rosas
-# Version: 15-10-2024
+# Version: 10-10-2024
 
-import Repisa_Pila as Rp
 import Repisa_Lista as Rl
+import Repisa_Pila as Rp
 
 
 class Estante:
@@ -45,7 +45,7 @@ class Estante:
         """
         return self.__repisa3
 
-    # Metodos Set
+    # Métodos set
     @repisa1.setter
     def repisa1(self, nueva_repisa):
         """
@@ -86,20 +86,20 @@ class Estante:
                            ordenar los Libros.
         :return: Repisa 3 ordenada
         """
+        self.__repisa3.vaciar()
         # Mientras la repisa 1 no este vacia
         while not self.__repisa1.esta_vacia():
             libro_sacado = self.__repisa1.pop()
-            print(type(libro_sacado))
             self.__repisa3.agregar_ordenado(libro_sacado, comparador)
 
         # Mientras la repisa 2 no este vacia
         while not self.__repisa2.esta_vacia():
-            libro_sacado = self.__repisa1.pop()
+            libro_sacado = self.__repisa2.pop()
             self.__repisa3.agregar_ordenado(libro_sacado, comparador)
 
     def __str__(self):
         """
-        Metodo que permite imprimir el estante en formato cadena
+        Método que permite imprimir el estante en formato cadena
         :return: La repisa en formato cadena de caracteres
         :rtype: str
         """

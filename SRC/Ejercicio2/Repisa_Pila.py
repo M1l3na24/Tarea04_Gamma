@@ -1,7 +1,7 @@
 # Programa: Repisa_Pila.py
 # Objetivo: Clase que modela una Repisa como una Pila (es para el estante 1 y 2).
 # Autores: Milena Rivera, Carlos Barrera, Isaac Garrido, Mayela Rosas
-# Version: 09-10-2024
+# Version: 15-10-2024
 
 import Interfaz_Apilable as Ia
 import Clase_Libro as Cl

@@ -9,32 +9,30 @@ import clasePersona as cP
 import claseAlumno as cA
 import claseProfesor as cPr
 import claseCoordinador as cC
-import Nodo as n
+import Nodo as N
 
 
 class Directorio:
-    def __init__(self, tamanio=1):
+    def __init__(self):
         """
         Constructor que permite crear el objeto Directorio (escolar) que sera
-        un arreglo que contendra arreglos(informacion de contacto).
+        una lista simplemente ligada con centinela al inicio.
         Se construye como un directorio nuevo: vacio por default
-        :param: tamanio:int - es un parametro opcional que construye el directorio del
-        tamanio 1 si no se especifica y de tamanio = tamanio si se especifica.
         """
         # Crear un directorio vacio
-        self.__centinela = n.Nodo(None)  # Nodo centinela vacío
+        self.__centinela = N.Nodo(None)  # Nodo centinela vacio
         self.__numeros_cuenta = set()
         self.__numeros_profesor = set()
         self.__numeros_empleado = set()
-        # num_personas es un indice que me permite saber cual es el tamaño de mi directorio actual
+        # num_personas es un indice que me permite saber cual es el tamanio de mi directorio actual
         self.__num_personas = 0
 
     # Insertar datos de un nuevo contacto (alumno, profesor o coordinador).
     def insertar_nuevo_alumno(self):
         """
-        Metodo para agregar un alumno en el arreglo de directorio, para ello
-        se pedira cada uno de los campos. El numero de cuenta no debe de estar ya en el
-        arreglo de numeros de cuenta de alumnos.
+        Metodo para agregar un alumno en el directorio, para ello
+        se pedira cada uno de los campos. El numero de cuenta no debe de estar
+        ya en en el conjunto de numeros de cuenta de alumnos.
         """
         while True:
             try:
@@ -72,9 +70,9 @@ class Directorio:
 
     def insertar_nuevo_profesor(self):
         """
-        Metodo para agregar un profesor en el arreglo de directorio, para ello
-        se pedira cada uno de los campos. El numero de profesor no debe de estar ya en el
-        arreglo de numero de profesores.
+        Metodo para agregar un profesor en el directorio, para ello
+        se pedira cada uno de los campos. El numero de profesor no debe
+        de estar ya en el conjunto de numero de profesores.
         """
         while True:
             try:
@@ -93,7 +91,6 @@ class Directorio:
         correo = input('Escribe el correo del profesor: ')
         dept = input('Escribe el departamento de adscripcion del profesor: ')
         carrera = input('Escribe la carrera en la que imparte materias el profesor: ')
-
         grupos = input('Escribe los grupos del profesor separados por comas: ')
         sueldo = float(input('Escribe el sueldo del profesor: '))
 
@@ -116,9 +113,9 @@ class Directorio:
 
     def insertar_nuevo_coordinador(self):
         """
-        Metodo para agregar un Coordinador en el arreglo de directorio, para ello
-        se pedira cada uno de los campos. El numero de empleado no debe de estar ya en el
-        arreglo de numero de empleados.
+        Metodo para agregar un Coordinador en el directorio, para ello
+        se pedira cada uno de los campos. El numero de empleado no debe
+        de estar ya en el conjunto de numero de empleados.
         """
         while True:
             try:
@@ -157,27 +154,27 @@ class Directorio:
 
     def __agregar_a_lista(self, persona):
         """
-        Método privado para agregar una persona a la lista ligada.
+        Metodo privado para agregar una persona a la lista ligada.
         :param persona: objeto de tipo Alumno, Profesor o Coordinador.
         """
-        nuevo_nodo = n.Nodo(persona)  # Crear un nuevo nodo con la persona
+        nuevo_nodo = N.Nodo(persona)  # Crear un nuevo nodo con la persona
         actual = self.__centinela
-        # Asegurarnos de que el nodo centinela está correctamente inicializado
+        # Asegurarnos de que el nodo centinela esta correctamente inicializado
         if actual is None:
             self.__centinela = nuevo_nodo
         else:
-            # Recorrer hasta encontrar el último nodo
+            # Recorrer hasta encontrar el ultimo nodo
             while actual.siguiente:
                 actual = actual.siguiente
             actual.siguiente = nuevo_nodo
-
         self.__num_personas += 1
 
-    def buscar_indice(self, nombre_completo) -> int:
+    def buscar_indice(self, nombre_completo: str) -> int:
         """
-        Método auxiliar que busca una persona en la lista de directorio, dado el nombre completo.
+        Metodo auxiliar que busca una persona en la lista de directorio, dado el nombre completo.
         :param nombre_completo: El nombre completo a buscar en el directorio.
-        :return: índice (basado en la posición relativa en la lista) si se encuentra, -1 si no.
+        :return: indice (basado en la posicion relativa en la lista) si se encuentra,
+        levanta un Error si no.
         """
         actual = self.__centinela.siguiente
         indice = 0
@@ -198,7 +195,7 @@ class Directorio:
     def mostrar_persona(self, nombre):
         """
         Metodo __str__ que define como mostrar una persona dentro del directorio.
-        La representa a traves de los elementos en el array.
+        La representa a traves de los elementos en la lista.
         :param nombre: persona a mostrar
         :return: cadena: Str - La representacion de la persona en el directorio
         :rtype: Str
@@ -225,7 +222,7 @@ class Directorio:
         if alumnos or profesores or coordinadores:
             print('\nALUMNOS:\n' + alumnos + "\nPROFESORES:\n" + profesores + "\nCOORDINADORES:\n" + coordinadores)
         else:
-            print(f"No se encontró a la persona con el nombre {nombre}.")
+            print(f"No se encontro a la persona con el nombre {nombre}.")
 
     # Extra: lectura/escritura de archivos CSV
 
@@ -242,7 +239,7 @@ class Directorio:
 
     def lectura_csvs(self):
         """
-        Metodo que carga/abre la informacion de un archivo en nuestro arreglo de directorio,
+        Metodo que carga/abre la informacion de un archivo en nuestro directorio,
         dependiendo del tipo de persona, se utilizara el constructor correspodiente.
         """
         while True:
@@ -275,10 +272,10 @@ class Directorio:
 
     def escritura_csvs(self):
         """
-        Metodo que guarda la información del arreglo de directorio, en un archivo csv
+        Metodo que guarda la información del directorio, en un archivo csv
         para ello se utilizara los iteradores de cada tipo de persona
         """
-        nombre_archivo = input('Escribe el nombre del archivo con terminación csv con el que deseas guardar: ')
+        nombre_archivo = input('Escribe el nombre del archivo con terminacion csv con el que deseas guardar: ')
         with open(nombre_archivo, 'w') as archivo:
             actual = self.__centinela.siguiente
             while actual is not None:
@@ -286,7 +283,7 @@ class Directorio:
                 per = ''
                 for atributo in persona.__dict__.values():
                     per += str(atributo) + ','
-                per = per[:-1] + '\n'  # Quitamos la última coma y añadimos un salto de línea
+                per = per[:-1] + '\n'  # Quitamos la ultima coma y aniadimos un salto de linea
                 archivo.write(per)
                 actual = actual.siguiente
         print(f"Archivo {nombre_archivo} guardado correctamente.")
@@ -324,43 +321,43 @@ class Directorio:
             else:
                 # Intercambiamos los nodos izquierdo y derecho
                 self.intercambiar_nodos(left, right)
-        # Movemos el pivote a su posición correcta
+        # Movemos el pivote a su posicion correcta
         self.intercambiar_nodos(inicio, right)
         return right
 
     def obtener_nodo(self, posicion: int):
         """
-        Método que obtiene el nodo en una posición específica de la lista simplemente ligada.
-        :param posicion: La posición del nodo que se desea obtener (basada en índice 0).
-        :return: El nodo encontrado en la posición indicada o None si no existe.
+        Metodo que obtiene el nodo en una posicion especifica de la lista simplemente ligada.
+        :param posicion: La posición del nodo que se desea obtener (basada en indice 0).
+        :return: El nodo encontrado en la posicion indicada o None si no existe.
         """
-        actual = self.__centinela.siguiente  # El primer nodo después del centinela
+        actual = self.__centinela.siguiente  # El primer nodo despues del centinela
         indice_actual = 0
 
-        # Recorremos la lista hasta llegar a la posición deseada o al final
+        # Recorremos la lista hasta llegar a la posicion deseada o al final
         while actual is not None and indice_actual < posicion:
             actual = actual.siguiente
             indice_actual += 1
 
-        # Si el nodo existe en la posición, lo retornamos
+        # Si el nodo existe en la posicion, lo retornamos
         if actual is not None and indice_actual == posicion:
             return actual
         else:
-            return None  # Retornamos None si la posición no es válida
+            return None  # Retornamos None si la posición no es valida
 
     def intercambiar_nodos(self, particion, nodo1, nodo2):
         """
-        Método que intercambia dos nodos en una partición de la lista simplemente ligada.
-        :param particion: La partición donde se encuentran los nodos.
+        Metodo que intercambia dos nodos en una particion de la lista simplemente ligada.
+        :param particion: La particion donde se encuentran los nodos.
         :param nodo1: Primer nodo a intercambiar.
         :param nodo2: Segundo nodo a intercambiar.
         """
         if nodo1 == nodo2:
             return  # Si los nodos son iguales, no hacemos nada
 
-        # Buscamos los nodos predecesores de nodo1 y nodo2 en la partición
+        # Buscamos los nodos predecesores de nodo1 y nodo2 en la particion
         anterior_nodo1, anterior_nodo2 = None, None
-        actual = self.__particion[particion]  # Comenzamos en el centinela de la partición
+        actual = self.__particion(particion)  # Comenzamos en el centinela de la particion
         while actual.siguiente is not None:
             if actual.siguiente == nodo1:
                 anterior_nodo1 = actual
@@ -375,12 +372,12 @@ class Directorio:
         if anterior_nodo1.siguiente == nodo1 and anterior_nodo2.siguiente == nodo2:
             # Si los nodos son adyacentes, manejamos los enlaces de manera especial
             if nodo1.siguiente == nodo2:
-                # Si nodo1 está justo antes de nodo2
+                # Si nodo1 esta justo antes de nodo2
                 nodo1.siguiente = nodo2.siguiente
                 nodo2.siguiente = nodo1
                 anterior_nodo1.siguiente = nodo2
             else:
-                # Si nodo2 está justo antes de nodo1
+                # Si nodo2 esta justo antes de nodo1
                 nodo2.siguiente = nodo1.siguiente
                 nodo1.siguiente = nodo2
                 anterior_nodo2.siguiente = nodo1
@@ -399,7 +396,6 @@ class Directorio:
         :param inicio: La posicion inicial
         :param fin: La posicion final
         :param comparador: El comparador con el que se desea hacer el ordenamiento
-        :return: Arreglo de contactos ordenado
         """
         if inicio < fin:
             posicion_part = self.__particion(inicio, fin, comparador)
@@ -450,7 +446,7 @@ class Directorio:
         elif rol == 'coordinador':
             rol_clase = cC.Coordinador
         else:
-            print('No es una entrada válida')
+            print('No es una entrada valida')
             return
 
         # Buscar y mostrar el contacto
@@ -488,80 +484,6 @@ class Directorio:
 
         if not encontrado:
             print(f"No se encontró contacto con el nombre completo: {nombre}")
-    def menu_actualizar_alumno(self) -> str:
-        """
-        Metodo auxiliar, que muestra en pantalla las opciones para actualizar un Alumno
-        :return: opcion: Int - La opcion deseada para actualizar
-        :rtype: Str
-        """
-        while True:
-            opcion = input('Que deseas actualizar:\n'
-                           '1. Nombre Completo\n'
-                           '2. Celular\n'
-                           '3. Fecha Cumpleanios\n'
-                           '4. Email\n'
-                           '5. Num. Cuenta\n'
-                           '6. Carrera \n'
-                           '7. Materias\n'
-                           '8. Semestre\n'
-                           'S. Salir \n').upper()
-            if opcion not in '1,2,3,4,5,6,7,8,S' or len(opcion) != 1:
-                print("Opcion invalida.")
-                continue
-            else:
-                break
-        return opcion
-
-    def menu_actualizar_profesor(self) -> str:
-        """
-        Metodo auxiliar, que muestra en pantalla las opciones para actualizar un Profesor
-        :return: opcion: Int - La opcion deseada para actualizar
-        :rtype: Str
-        """
-        while True:
-            opcion = input('Que deseas actualizar:\n'
-                           '1. Nombre Completo\n'
-                           '2. Celular\n'
-                           '3. Fecha Cumpleanios\n'
-                           '4. Email\n'
-                           '5. Num. Profesor\n'
-                           '6. Tel. Oficina \n'
-                           '7. Sueldo\n'
-                           '8. Dept. Adscripcion\n'
-                           '9. Carrera donde imparte materias\n'
-                           '10. Grupos\n'
-                           'S. Salir \n').upper()
-            if opcion not in '1,2,3,4,5,6,7,8,9,10,S' or len(opcion) != 1:
-                print("Opcion invalida.")
-                continue
-            else:
-                break
-        return opcion
-
-    def menu_actualizar_coordinador(self) -> str:
-        """
-        Metodo auxiliar, que muestra en pantalla las opciones para actualizar un Profesor
-        :return: opcion: Int - La opcion deseada para actualizar
-        :rtype: Str
-        """
-        while True:
-            opcion = input('Que deseas actualizar:\n'
-                           '1. Nombre Completo\n'
-                           '2. Celular\n'
-                           '3. Fecha Cumpleanios\n'
-                           '4. Email\n'
-                           '5. Num. Empleado\n'
-                           '6. Tel. Oficina \n'
-                           '7. Sueldo\n'
-                           '8. Dept. Adscripcion\n'
-                           '9. Carrera que coordina\n'
-                           'S. Salir \n').upper()
-            if opcion not in '1,2,3,4,5,6,7,8,9,S' or len(opcion) != 1:
-                print("Opcion invalida.")
-                continue
-            else:
-                break
-        return opcion
 
     def actualizar_alumno(self):
         """
@@ -570,11 +492,11 @@ class Directorio:
         """
         nom_completo = input('Escribe el nombre completo del alumno: ')
         particion = 0  # Ajustar si los alumnos están en una partición específica
-        indice = self.buscar_indice(nom_completo, particion)
+        indice = self.buscar_indice(nom_completo)
         if indice == -1:
             print(f"No se encuentra el alumno con nombre completo {nom_completo}")
         else:
-            alumno = self.obtener_nodo(particion, indice)
+            alumno = self.obtener_nodo(particion)
             if isinstance(alumno, cA.Alumno) and not isinstance(alumno, cPr.Profesor):
                 print(alumno)
                 opcion = ''
@@ -822,7 +744,7 @@ class Directorio:
     def mostrar_contactos_por_sueldo(self, sueldo: float):
         """
         Muestra todos los contactos con un sueldo determinado.
-        La información se muestra agrupada por categoría (profesor o coordinador).
+        La informacion se muestra agrupada por categoria (profesor o coordinador).
         Los contactos se muestran ordenados.
         :param sueldo: int - el sueldo especifico que busco
         :return un string ordenado que divide profesores y coordinadores con ese sueldo especifico.
@@ -848,7 +770,7 @@ class Directorio:
         """
         Metodo que permite determinar si un contacto esta contenido en el Directorio
         :param contacto: El contacto a buscar
-        :return: True si está contenido, False en caso contrario
+        :return: True si esta contenido, False en caso contrario
         """
         actual = self.__centinela.siguiente
         while actual is not None:
@@ -877,6 +799,7 @@ class Directorio:
                 previo = actual
                 actual = actual.siguiente
             print(f"El elemento {contacto} no está en el Directorio!\n")
+
     def eliminar_cel(self, celular):
         """
         Elimina los datos de un contacto a partir del numero de celular.
@@ -887,10 +810,11 @@ class Directorio:
         while actual is not None:
             if actual.dato.celular == celular:
                 self.eliminar(actual.dato)
-                print(f"El contacto con el número de celular: '{celular}' ha sido eliminado.")
+                print(f"El contacto con el numero de celular: '{celular}' ha sido eliminado.")
                 return
             actual = actual.siguiente
-        print(f"No se encontró contacto con el número de celular: {celular}")
+        print(f"No se encontro contacto con el numero de celular: {celular}")
+
     def eliminar_email(self, correo):
         """
         Elimina los datos de un contacto a partir del correo electronico.
@@ -906,43 +830,43 @@ class Directorio:
             actual = actual.siguiente
         print(f"No se encontró contacto con el correo: {correo}")
 
+    # CREO QUE ESTE YA NO ES NECESARIO
     def buscar_indice_cum(self, cumpleanios) -> int:
         """
-        Método auxiliar que busca el índice del arreglo de directorio, dado la fecha de cumpleaños de una persona.
-        :param cumpleanios: La fecha de cumpleaños a buscar en el directorio.
-        :return: El índice (int) del arreglo del directorio si se encuentra un valor >= 0.
-                 Si no se encuentra en el arreglo, retorna un valor < 0.
+        Metodo auxiliar que busca el indice del directorio, dado la fecha de cumpleanios de una persona.
+        :param cumpleanios: La fecha de cumpleanios a buscar en el directorio.
+        :return: El indice (int) del arreglo del directorio si se encuentra.
+                 Si no se encuentra imprime un aviso de no encontrado.
         :rtype: int
         """
         actual = self.__centinela.siguiente
         while actual is not None:
             if actual.dato.fecha_cumpleanios == cumpleanios:
                 print(actual.dato)
-                return
+                return self.buscar_indice(actual.dato.nombre_completo)
             actual = actual.siguiente
         print(f"No se encontró un contacto con cumpleaños {cumpleanios}")
 
+    # CREO QUE ESTE YA NO ES NECESARIO
     def buscar_indice_cel(self, celular) -> int:
         """
-        Método auxiliar que busca el índice del arreglo de directorio, dado el número de celular de una persona.
-
-        :param celular: El número de celular a buscar en el directorio.
-        :return: El índice (int) del arreglo del directorio si se encuentra un valor >= 0.
-                 Si no se encuentra en el arreglo, retorna un valor < 0.
+        Metodo auxiliar que busca el indice del directorio, dado el numero de celular de una persona.
+        :param celular: El numero de celular a buscar en el directorio.
+        :return: El indice (int) del directorio si se encuentra .
+                 Si no se encuentra imprime un aviso de no encontrado.
         :rtype: int
         """
         actual = self.__centinela.siguiente
         while actual is not None:
             if actual.dato.celular == celular:
                 print(actual.dato)
-                return
+                return self.buscar_indice(actual.dato.nombre_completo)
             actual = actual.siguiente
         print(f"No se encontró un contacto con cumpleaños {celular}")
 
     def buscar_contacto_celular(self, celular: int):
         """
-        Metodo __str__ que define como mostrar una persona dentro del directorio.
-        La representa a traves de los elementos en el array.
+        Metodo __str__ que define como mostrar una persona dentro del directorio..
         :param celular:int - numero de celular del contacto
         :return: cadena: Str - La representacion de la persona en el directorio
         :rtype: Str
@@ -954,12 +878,11 @@ class Directorio:
                 print(actual.dato)
                 return
             actual = actual.siguiente
-        print(f"No se encontró un contacto con celular {celular}")
+        print(f"No se encontro un contacto con celular {celular}")
 
     def buscar_contacto_cum(self, cumpleanios: str):
         """
         Metodo __str__ que define como mostrar una persona dentro del directorio a partir de su cumpleanios.
-        La representa a traves de los elementos en el directorio.
         :param cumpleanios: cumpleanios del contacto
         :return: cadena: Str - La representacion de la persona en el directorio
         :rtype: Str
@@ -971,7 +894,7 @@ class Directorio:
                 print(actual.dato)
                 return
             actual = actual.siguiente
-        print(f"No se encontró un contacto con celular {cumpleanios}")
+        print(f"No se encontrO un contacto con celular {cumpleanios}")
 
     # Carlos
 
@@ -1035,7 +958,7 @@ class Directorio:
     def mostrar_contactos_por_carrera(self, carrera_particular: str):
         """
         Muestra todos los contactos con una carrera particular.
-        La información se muestra agrupada por categoría (alumno, profesor o coordinador).
+        La informacion se muestra agrupada por categoria (alumno, profesor o coordinador).
         Los contactos se muestran ordenados.
         :param carrera_particular: str -la carrera especifica que busco
         :return un string ordenado que divide alumnos, profesores y coordinadores con esa carrera especifica.
@@ -1083,5 +1006,3 @@ class Directorio:
 
         else:
             print('No es una entrada válida')
-
-

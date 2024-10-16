@@ -1,7 +1,7 @@
 # Programa: Repisa_Lista.py
 # Objetivo: Clase que modela una Repisa como una Lista doblemente ligada (es para el estante 3).
 # Autores: Milena Rivera, Carlos Barrera, Isaac Garrido, Mayela Rosas
-# Version: 10-10-2024
+# Version: 15-10-2024
 
 import Clase_Nodo as Cn
 import Clase_Libro as Cl
@@ -68,7 +68,7 @@ class RepisaLista(Il.Listable):
         """
         self.__ne = ne
 
-    def agregar(self, elemento:  Cl.Libro):
+    def agregar(self, elemento: Cl.Libro):
         """
         Metodo que permite agregar un libro al inicio de la Lista.
         Complejidad: O(1)
@@ -83,7 +83,7 @@ class RepisaLista(Il.Listable):
             self.inicio.siguiente.anterior = self.inicio
             self.ne += 1
 
-    def agregar_final(self, elemento:  Cl.Libro):
+    def agregar_final(self, elemento: Cl.Libro):
         """
         Metodo que permite agregar un libro al final de la lista.
         Complejidad: O(1)
@@ -98,7 +98,7 @@ class RepisaLista(Il.Listable):
             self.final.anterior.siguiente = self.final
             self.ne += 1
 
-    def agregar_intermedio(self, elemento:  Cl.Libro, posicion: int):
+    def agregar_intermedio(self, elemento: Cl.Libro, posicion: int):
         """
         Metodo que permite insertar un libro en la posicion
         deseada.
@@ -117,10 +117,8 @@ class RepisaLista(Il.Listable):
             c += 1
         if pos is None:
             self.agregar_final(elemento)
-            self.ne += 1
         elif pos == self.inicio:
             self.agregar(elemento)
-            self.ne += 1
         else:
             nodo_a = Cn.Nodo(elemento, pos, pos.anterior)
             pos.anterior.siguiente = nodo_a
@@ -129,22 +127,23 @@ class RepisaLista(Il.Listable):
 
     def agregar_ordenado(self, elem: Cl.Libro, comparador: callable):
         """
-        Metodo que permite insertar un libro en la posicion que le corresponde a partir de un comparador.
-        :param elem: El elemento a insertar,
-        :param comparador: El comparador con el que se diferenciaran Libros
+        Metodo que permite agregar un libro a la lista de forma que quede ordenada.
+        Complejidad: O(1)
+        :param elem: El libro que se va a almacenar en el Nodo
+        :param comparador: El comparador que se va a utilizar
         """
         pos = self.inicio
         while pos is not None:
             if comparador(elem, pos.elemento) <= 0:
                 if pos == self.inicio:
                     self.agregar(elem)
-                    break
+                    return
                 else:
                     nodo_a = Cn.Nodo(elem, pos, pos.anterior)
                     pos.anterior.siguiente = nodo_a
                     pos.anterior = nodo_a
                     self.ne += 1
-                    break
+                    return
             pos = pos.siguiente
         self.agregar_final(elem)
 
@@ -280,11 +279,11 @@ class RepisaLista(Il.Listable):
         """
         # Utilizando el iterador
         it1 = iter(self)
-        lista = "Lista: "
+        lista = ""
         try:
             while True:
                 elem = next(it1)
-                lista += str(elem) + ", "
+                lista += str(elem) + "\n"
         except StopIteration:
             pass
         return lista

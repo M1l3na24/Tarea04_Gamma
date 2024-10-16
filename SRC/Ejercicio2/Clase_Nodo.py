@@ -1,7 +1,7 @@
 # Programa: Clase_Nodo.py
 # Objetivo: Clase que modela Nodo de Lista simplemente y doblemente ligada.
 # Autores: Milena Rivera, Carlos Barrera, Isaac Garrido, Mayela Rosas
-# Version: 10-10-2024
+# Version: 15-10-2024
 
 class Nodo:
     """

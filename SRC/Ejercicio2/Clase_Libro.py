@@ -1,7 +1,7 @@
 # Programa: Clase_libro.py
 # Objetivo: Clase que modela un Libro.
 # Autores: Milena Rivera, Carlos Barrera, Isaac Garrido, Mayela Rosas
-# Version: 09-10-2024
+# Version: 15-10-2024
 
 
 class Libro:
@@ -88,6 +88,14 @@ class Libro:
         :param anio_publicacion: El anio de publicacion del Libro
         """
         self.__anio_publicacion = anio_publicacion
+
+    def __iter__(self):
+        """
+        Metodo que devuelve una representacion iterable del libro
+        :return: La representacion en formato Lista de un Libro
+        :rtype: iterable
+        """
+        return iter([self.titulo, self.__autor, self.__editorial, self.__anio_publicacion])
 
     def __str__(self):
         """
