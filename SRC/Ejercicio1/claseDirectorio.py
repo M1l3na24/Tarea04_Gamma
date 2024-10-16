@@ -587,253 +587,227 @@ class Directorio:
         Metodo para actualizar un contacto del tipo allumno, si se encuentra el nombre completo del alumno
         desplegara un menu para saber que valor actualizar. Si no imprimira un mensaje.
         """
-        nom_completo = input('Escribe el nombre completo del alumno: ')
-        indice = self.buscar_indice(nom_completo)
-        if indice == -1:
-            print(f"No se encuentra el alumno con nombre completo {nom_completo}")
-        else:
-            alumno = self.obtener_nodo(indice)
-            if isinstance(alumno, cA.Alumno) and not isinstance(alumno, cPr.Profesor):
-                print(alumno)
+        alumno = self.__lista.inicio
+        nombre = input("Escribe el nombre completo del alumno: ")
+        while alumno is not None:
+            if alumno.elemento.nombre_completo == nombre and isinstance(alumno.elemento, cA.Alumno) and not isinstance(alumno.elemento, cPr.Profesor):
                 opcion = ''
                 while opcion != 'S':
-                    opcion = menu_actualizar_alumno()
+                    opcion = self.menu_actualizar_alumno()
 
                     match opcion:
                         case "1":
                             nuevonombre = input('Escribe el nuevo nombre del Alumno a actualizar: ')
-                            alumno._Persona__nombre_completo = nuevonombre
+                            alumno.elemento.nombre_completo = nuevonombre
                             print('Nombre Actualizado \n')
                             opcion = ''
 
                         case "2":
                             nuevocelular = int(input('Escribe la nuevo celular del alumno: '))
-                            alumno._Persona__celular = nuevocelular
+                            alumno.elemento.celular = nuevocelular
                             print('Celular Actualizado \n')
                             opcion = ''
 
                         case "3":
                             nuevocumple = int(input('Escribe el nuevo cumpleanios del alumno: '))
-                            alumno._Persona__fecha_cumpleanios = nuevocumple
+                            alumno.elemento.fecha_cumpleanios = nuevocumple
                             print('Cumpleanios Actualizado \n')
                             opcion = ''
 
                         case "4":
                             nuevoemail = input('Escribe el nuevo email del alumno: ')
-                            alumno._Persona__email = nuevoemail
+                            alumno.elemento.email = nuevoemail
                             print('Email Actualizado \n')
                             opcion = ''
 
                         case "5":
-                            while True:
-                                try:
-                                    nuevonumcuenta = int(input('Escribe el nuevo numero de cuenta del alumno: '))
-                                    break
-                                except ValueError:
-                                    print('El numero de cuenta del alumno, tiene que ser un entero')
-                            self.__numeros_cuenta.remove(alumno.num_cuenta)
-                            alumno.__num_cuenta = nuevonumcuenta
-                            self.__numeros_cuenta.add(alumno.num_cuenta)
-                            print('Numero de Cuenta Actualizado \n')
+                            num_cuenta = int(input('Escribe el nuevo numero de cuenta del alumno: '))
+                            alumno.elemento.num_cuenta = num_cuenta
+                            print('Numero de cuenta actualizado \n')
                             opcion = ''
 
                         case "6":
                             nueva_carrera = input('Escribe la nueva carrera del alumno: ')
-                            alumno.__carrera = nueva_carrera
+                            alumno.elemento.carrera = nueva_carrera
                             print('Carrera  Actualizada \n')
                             opcion = ''
 
                         case "7":
                             nuevamaterias = list(input('Escribe la nueva lista de materias del alumno: '))
-                            alumno.__materias = nuevamaterias
+                            alumno.elemento.materias = nuevamaterias
                             print('Materias Actualizadas \n')
                             opcion = ''
 
                         case "8":
                             nuevsemestre = int(input('Escribe la nueva lista de materias del alumno: '))
-                            alumno.__semestre = nuevsemestre
+                            alumno.elemento.semestre = nuevsemestre
                             print('Materias Actualizadas \n')
                             opcion = ''
 
                         case "S":
                             print('Volviendo ...')
-            else:
-                print(f"No se encuentra el alumno con nombre {nom_completo}")
+                return
+            alumno = alumno.siguiente
+
+        print(f"No se encontró a ningun alumno con el nombre: {nombre}")
+        
+   
 
     def actualizar_profesor(self):
         """
         Metodo para actualizar un contacto del tipo Profesor, si se encuentra el nombre completo del profesor
         desplegara un menu para saber que valor actualizar. Si no imprimira un mensaje.
         """
-        nomcompleto = input('Escribe el nombre completo del profesor: ')
-        indice = self.buscar_indice(nomcompleto)
-        if indice == -1:
-            print(f"No se encuentra el profesor con nombre completo {nomcompleto}")
-        else:
-            profesor = self.obtener_nodo(indice)
-            if isinstance(profesor, cPr.Profesor) and not isinstance(profesor, cC.Coordinador):
-                print(profesor)
+        profesor = self.__lista.inicio
+        nombre = input("Escribe el nombre completo del profesor: ")
+        while profesor is not None:
+            if profesor.elemento.nombre_completo == nombre and isinstance(profesor.elemento, cPr.Profesor) and not isinstance(profesor.elemento, cC.Coordinador):
                 opcion = ''
                 while opcion != 'S':
-                    opcion = menu_actualizar_profesor()
+                    opcion = self.menu_actualizar_profesor()
 
                     match opcion:
                         case "1":
                             nuevonombre = input('Escribe el nuevo nombre del profesor a actualizar: ')
-                            profesor._Persona__nombre_completo = nuevonombre
+                            profesor.elemento.nombre_completo = nuevonombre
                             print('Nombre Actualizado \n')
                             opcion = ''
 
                         case "2":
                             nuevocelular = int(input('Escribe la nuevo celular del profesor: '))
-                            profesor._Persona__celular = nuevocelular
+                            profesor.elemento.celular = nuevocelular
                             print('Celular Actualizado \n')
                             opcion = ''
 
                         case "3":
                             nuevocumple = int(input('Escribe el nuevo cumpleanios del profesor: '))
-                            profesor._Persona__fecha_cumpleanios = nuevocumple
+                            profesor.elemento.fecha_cumpleanios = nuevocumple
                             print('Cumpleanios Actualizado \n')
                             opcion = ''
 
                         case "4":
                             nuevoemail = input('Escribe el nuevo email del profesor: ')
-                            profesor._Persona__email = nuevoemail
+                            profesor.elemento.email = nuevoemail
                             print('Email Actualizado \n')
                             opcion = ''
 
                         case "5":
-                            while True:
-                                try:
-                                    nuevonumprofesor = int(input('Escribe el nuevo numero de profesor: '))
-                                    break
-                                except ValueError:
-                                    print('El numero de profesor del profesor, tiene que ser un entero')
-                            self.__numeros_profesor.remove(profesor.num_profesor)
-                            profesor.__num_profesor = nuevonumprofesor
-                            self.__numeros_profesor.add(profesor.num_profesor)
-                            print('Numero de Profesor Actualizado \n')
+                            num_cuenta = int(input('Escribe el nuevo numero de cueta del profesor '))
+                            profesor.elemento.num_cuenta = num_cuenta
+                            print('Numero de  actualizado \n')
                             opcion = ''
 
                         case "6":
                             nuevoteloficina = int(input('Escribe el nuevo telefono de oficina del profesor: '))
-                            profesor.__tel_oficina = nuevoteloficina
+                            profesor.elemento.tel_oficina = nuevoteloficina
                             print('Tel. Oficina Actualizado \n')
                             opcion = ''
 
                         case "7":
                             nuevosueldo = int(input('Escribe el nuevo sueldo del profesor: '))
-                            profesor.__sueldo = nuevosueldo
+                            profesor.elemento.sueldo = nuevosueldo
                             print('Sueldo Actualizado \n')
                             opcion = ''
 
                         case "8":
                             nuevodeptads = input('Escribe el nuevo Dept. de Ads. del profesor: ')
-                            profesor.__dept_ads = nuevodeptads
+                            profesor.elemento.dept_ads = nuevodeptads
                             print('Dept. de Ads. Actualizado \n')
                             opcion = ''
 
                         case "9":
                             nuevocarrera = input('Escribe la nueva carrera donde imparte materias el profesor: ')
-                            profesor.__dept_ads = nuevocarrera
+                            profesor.elemento.dept_ads = nuevocarrera
                             print('Carrera Actualizada \n')
                             opcion = ''
 
                         case '10':
                             nuevgrup = list(input('Escribe la nueva lista de grupos del profesor: '))
-                            profesor.__grupos = nuevgrup
+                            profesor.elemento.grupos = nuevgrup
                             print('Materias Actualizadas \n')
                             opcion = ''
 
                         case "S":
                             print('Volviendo ...')
-            else:
-                print(f"No se encuentra el profesor con nombre {nomcompleto}")
+                return
+            profesor = profesor.siguiente
+
+        print(f"No se encontró a ningun profesor con el nombre: {nombre}")
 
     def actualizar_coordinador(self):
         """
         Metodo para actualizar un contacto del tipo Coordinador, si se encuentra el nombre completo del coordinador
         desplegara un menu para saber que valor actualizar. Si no imprimira un mensaje.
         """
-        nomcompleto = input('Escribe el nombre completo del coordinador: ')
-        indice = self.buscar_indice(nomcompleto)
-        if indice == -1:
-            print(f"No se encuentra el coordinador con nombre completo {nomcompleto}")
-        else:
-            coordinador = self.obtener_nodo(indice)
-            if isinstance(coordinador, cC.Coordinador) and not isinstance(coordinador, cPr.Profesor):
-                print(coordinador)
+        coordinador = self.__lista.inicio
+        nombre = input("Escribe el nombre completo del coordinador:  ")
+        while coordinador is not None:
+            if coordinador.elemento.nombre_completo == nombre and isinstance(coordinador.elemento, cC.Coordinador) and not isinstance(coordinador.elemento, cPr.Profesor):
                 opcion = ''
                 while opcion != 'S':
-                    opcion = menu_actualizar_coordinador()
+                    opcion = self.menu_actualizar_coordinador()
 
                     match opcion:
                         case "1":
                             nuevonombre = input('Escribe el nuevo nombre del coordinador a actualizar: ')
-                            coordinador._Persona__nombre_completo = nuevonombre
+                            coordinador.elemento.nombre_completo = nuevonombre
                             print('Nombre Actualizado \n')
                             opcion = ''
 
                         case "2":
                             nuevocelular = int(input('Escribe la nuevo celular del coordinador: '))
-                            coordinador._Persona__celular = nuevocelular
+                            coordinador.elemento.celular = nuevocelular
                             print('Celular Actualizado \n')
                             opcion = ''
 
                         case "3":
                             nuevocumple = int(input('Escribe el nuevo cumpleanios del coordinador: '))
-                            coordinador._Persona__fecha_cumpleanios = nuevocumple
+                            coordinador.elemento.fecha_cumpleanios = nuevocumple
                             print('Cumpleanios Actualizado \n')
                             opcion = ''
 
                         case "4":
                             nuevoemail = input('Escribe el nuevo email del coordinador: ')
-                            coordinador._Persona__email = nuevoemail
+                            coordinador.elemento.email = nuevoemail
                             print('Email Actualizado \n')
                             opcion = ''
 
                         case "5":
-                            while True:
-                                try:
-                                    nuevonumempleado = int(
-                                        input('Escribe el nuevo numero de empleado del coordinador: '))
-                                    break
-                                except ValueError:
-                                    print('El numero de empleado del coordinador, tiene que ser un entero')
-                            self.__numeros_empleado.remove(coordinador.num_empleado)
-                            coordinador.__num_empleado = nuevonumempleado
-                            self.__numeros_empleado.add(coordinador.num_empleado)
-                            print('Numero de Empleado Actualizado \n')
+                            num_cuenta = int(input('Escribe el nuevo numero de cueta del coordinador:  '))
+                            coordinador.elemento.num_cuenta = num_cuenta
+                            print('Numero de  actualizado \n')
                             opcion = ''
 
                         case "6":
                             nuevoteloficina = int(input('Escribe el nuevo telefono de oficina del coordinador: '))
-                            coordinador.__tel_oficina = nuevoteloficina
+                            coordinador.elemento.tel_oficina = nuevoteloficina
                             print('Tel. Oficina Actualizado \n')
                             opcion = ''
 
                         case "7":
                             nuevosueldo = int(input('Escribe el nuevo sueldo del coordinador: '))
-                            coordinador.__sueldo = nuevosueldo
+                            coordinador.elemento.sueldo = nuevosueldo
                             print('Sueldo Actualizado \n')
                             opcion = ''
 
                         case "8":
                             nuevodeptads = input('Escribe el nuevo Dept. de Ads. del coordinador: ')
-                            coordinador.__dept_ads = nuevodeptads
+                            coordinador.elemento.dept_ads = nuevodeptads
                             print('Dept. de Ads. Actualizado \n')
                             opcion = ''
 
                         case "9":
                             nuevocarrera = input('Escribe la nueva carrera que coordina: ')
-                            coordinador.__carrera_coordina = nuevocarrera
+                            coordinador.elemento.carrera_coordina = nuevocarrera
                             print('Carrera Actualizada \n')
                             opcion = ''
 
                         case "S":
                             print('Volviendo ...')
-            else:
-                print(f"No se encuentra el coordinador con nombre {nomcompleto}")
+                return
+            coordinador = coordinador.siguiente
+
+        print(f"No se encontró a ningun coordinador con el nombre: {nombre}")
 
     def mostrar_contactos_por_sueldo(self, sueldo: float):
         """
