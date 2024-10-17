@@ -293,13 +293,14 @@ class Directorio:
 
     # Extra: lectura/escritura de archivos CSV
 
-    def lectura_csvs(self):
+    def lectura_csvs(self, nombre: str):
         """
         Método que carga/abre la información de un archivo CSV en la lista de directorio,
         dependiendo del tipo de persona, se utilizará el constructor correspondiente.
+        :param nombre: Nombre del archivo CSV.
         """
         while True:
-            nombre_archivo = input('Escribe el nombre del archivo con terminación .csv que deseas abrir: ')
+            nombre_archivo = nombre
             try:
                 with open(nombre_archivo, 'r') as archivo:
                     lector_csv = csv.reader(archivo)
@@ -330,6 +331,7 @@ class Directorio:
         """
         Método que guarda la información del directorio en un archivo CSV.
         Se itera sobre la lista para guardar los datos de cada persona.
+        :param: nombre: Nombre del archivo CSV.
         """
         nombre_archivo = nombre
         f = open(nombre_archivo, 'w')
@@ -384,11 +386,9 @@ class Directorio:
         else:
             print('No es una entrada válida')
             return
-
-        if self.esta_vacio():
+        if self.__lista.esta_vacia():
             print("No hay contactos.")
             return
-
         actual = self.__lista.inicio
         encontrado = False
         while actual is not None:
@@ -397,7 +397,6 @@ class Directorio:
                 encontrado = True
                 break
             actual = actual.siguiente
-
         if not encontrado:
             print('No existe un contacto con esas características')
 

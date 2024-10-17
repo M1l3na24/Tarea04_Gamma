@@ -3,7 +3,7 @@
 # Autores: Milena Rivera, Carlos Barrera, Isaac Garrido, Mayela Rosas
 # Fecha: 09-09-2024
 
-from datetime import date
+from datetime import date, datetime
 from validate_email import validate_email
 
 
@@ -25,7 +25,7 @@ class Persona:
         elif len(params) == 4:  # Constructor por parametros
             self.__nombre_completo = params[0]
             self.__celular = params[1]
-            self.__fecha_cumpleanios = params[2]
+            self.__fecha_cumpleanios = datetime.strptime(params[2], "%d/%m/%Y").date()
             # confirmo que es una direccion valida
             if validate_email(params[3]):
                 self.__email = params[3]

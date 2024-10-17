@@ -5,6 +5,7 @@
 # Descripcion: Programa que prueba el funcionamiento de la clase Directorio
 
 import claseDirectorio as cDir
+import Comparadores as Comp
 
 
 def menu_principal() -> str:
@@ -135,12 +136,13 @@ def menu_mostrar_info():
 
 
 if __name__ == "__main__":
-    print("Bienvenido al Programa donde se podra administrar los contactos de la escuela")
+    print("Bienvenido al Programa donde se podra administrar los contactos de la escuela\n"
+          "a travez de un directorio utilizando listas simplemente ligadas.")
 
     while True:
         opcionn = input('Que deseas hacer:\n'
                         '1. Crear un Directorio vacio\n'
-                        '2. Cargar informacion desde un archivo csv\n'
+                        '2. Cargar contactos desde un archivo csv\n'
                         'S. Salir \n').upper()
         if opcionn not in '1,2,S' or len(opcionn) != 1:
             print('Opcion incorrecta')
@@ -149,26 +151,51 @@ if __name__ == "__main__":
             break
     match opcionn:
         case '1':  # crear directorio vacio
-            directorio = cDir.Directorio()
+            while True:
+                print("1. Edad ascendente")
+                print("2. Salario descendente")
+                print("3. Salario y nombre")
+                print("4. Edad y nombre")
+                print("5. Nombre")
+                comp = input("Elige el comparador para la Lista Ordenada: ")
+                if comp not in "12345" or len(comp) != 1:
+                    print("El comparador elegido no es válido!\n")
+                    continue
+                match comp:
+                    case "1":
+                        directorio = cDir.Directorio(Comp.edad_ascendente)
+                        break
+                    case "2":
+                        directorio = cDir.Directorio(Comp.salario_descendente)
+                        break
+                    case "3":
+                        directorio = cDir.Directorio(Comp.salario_nombre)
+                        break
+                    case "4":
+                        directorio = cDir.Directorio(Comp.edad_nombre)
+                        break
+                    case "5":
+                        directorio = cDir.Directorio(Comp.nombre_ascendente)
+                        break
             print(f'Ya se creo el directorio vacio')
-            opcionn = ''
-            while opcionn != 'S':
+            opcion = ''
+            while opcion != 'S':
                 opcionn = menu_principal()
                 match opcionn:
-                    case "1":
+                    case "1":  # '1. Insertar datos de un nuevo contacto\n'
                         while opcionn != 'S':
                             opcionn = menu_insertar_datos()
                             match opcionn:
-                                case '1':
+                                case '1':  # '1. Agregar Alumno\n'
                                     directorio.insertar_nuevo_alumno()
-                                case '2':
+                                case '2':  # '2. Agregar Profesor\n'
                                     directorio.insertar_nuevo_profesor()
-                                case '3':
+                                case '3':  # '3. Agregar Coordinador\n'
                                     directorio.insertar_nuevo_coordinador()
                                 case 'S':
                                     print('Regresando al menu principal')
                         opcionn = " "
-                    case '2':
+                    case '2':  # '2. Mostrar información de un contacto\n'
                         while opcionn != 'S':
                             opcionn = menu_mostrar_info()
                             match opcionn:
@@ -196,7 +223,7 @@ if __name__ == "__main__":
                                 case 'S':
                                     print('Regresando al menu principal')
                         opcionn = ''
-                    case '3':
+                    case '3':  # '3. Eliminar información de un contacto\n'
                         while opcionn != 'S':
                             opcionn = menu_eliminar()
                             match opcionn:
@@ -213,7 +240,7 @@ if __name__ == "__main__":
                                 case 'S':
                                     print('Regresando al menu principal')
                         opcionn = ''
-                    case '4':
+                    case '4':  # '4. Actualizar los datos de un contacto \n'
                         while opcionn != 'S':
                             opcionn = menu_actualizar()
                             match opcionn:
@@ -226,7 +253,7 @@ if __name__ == "__main__":
                                 case 'S':
                                     print('Regresando al menu principal')
                         opcionn = ''
-                    case '5':
+                    case '5':  # "5. Buscar contacto \n"
                         while opcionn != 'S':
                             opcionn = menu_buscar()
                             match opcionn:
@@ -237,21 +264,47 @@ if __name__ == "__main__":
                                     cel = int(input("Escribe el número de celular del contacto que deseas buscar: "))
                                     directorio.buscar_contacto_celular(cel)
                         opcionn = ''
-                    case 'S':
+                    case 'S':  # 'S. Guardar y Salir \n').upper()
                         nombre = input('Escribe el nombre del archivo con terminación csv con el que deseas guardar: ')
                         directorio.escritura_csvs(nombre)
                         print(f'El directorio se guardo en el archivo csv "{nombre}"')
                         print("Hasta luego")
         case '2':   # Cargar informacion del directorio
             print('Leer un archivo csv creara un Directorio nuevo.')
-            directorio = cDir.Directorio()
-            directorio.lectura_csvs()
+            while True:
+                print("1. Edad ascendente")
+                print("2. Salario descendente")
+                print("3. Salario y nombre")
+                print("4. Edad y nombre")
+                print("5. Nombre")
+                comp = input("Elige el comparador para la Lista Ordenada: ")
+                if comp not in "12345" or len(comp) != 1:
+                    print("El comparador elegido no es válido!\n")
+                    continue
+                match comp:
+                    case "1":
+                        directorio = cDir.Directorio(Comp.edad_ascendente)
+                        break
+                    case "2":
+                        directorio = cDir.Directorio(Comp.salario_descendente)
+                        break
+                    case "3":
+                        directorio = cDir.Directorio(Comp.salario_nombre)
+                        break
+                    case "4":
+                        directorio = cDir.Directorio(Comp.edad_nombre)
+                        break
+                    case "5":
+                        directorio = cDir.Directorio(Comp.nombre_ascendente)
+                        break
+            nom = input('Escribe el nombre del archivo con terminación .csv que deseas abrir: ')
+            directorio.lectura_csvs(nom)
             print(directorio)
             opcionn = ''
             while opcionn != 'S':
                 opcionn = menu_principal()
                 match opcionn:
-                    case "1":
+                    case "1":  # '1. Insertar datos de un nuevo contacto\n'
                         while opcionn != 'S':
                             opcionn = menu_insertar_datos()
                             match opcionn:
@@ -264,7 +317,7 @@ if __name__ == "__main__":
                                 case 'S':
                                     print('Regresando al menu principal')
                         opcionn = " "
-                    case '2':
+                    case '2':  # '2. Mostrar información de un contacto\n'
                         while opcionn != 'S':
                             opcionn = menu_mostrar_info()
                             match opcionn:
@@ -292,7 +345,7 @@ if __name__ == "__main__":
                                 case 'S':
                                     print('Regresando al menu principal')
                         opcionn = ''
-                    case '3':
+                    case '3':  # '3. Eliminar información de un contacto\n'
                         while opcionn != 'S':
                             opcionn = menu_eliminar()
                             match opcionn:
@@ -309,7 +362,7 @@ if __name__ == "__main__":
                                 case 'S':
                                     print('Regresando al menu principal')
                         opcionn = ''
-                    case '4':
+                    case '4':  # '4. Actualizar los datos de un contacto \n'
                         while opcionn != 'S':
                             opcionn = menu_actualizar()
                             match opcionn:
@@ -322,7 +375,7 @@ if __name__ == "__main__":
                                 case 'S':
                                     print('Regresando al menu principal')
                         opcionn = ''
-                    case '5':
+                    case '5':  # "5. Buscar contacto \n"
                         while opcionn != 'S':
                             opcionn = menu_buscar()
                             match opcionn:
@@ -333,10 +386,9 @@ if __name__ == "__main__":
                                     cel = int(input("Escribe el número de celular del contacto que deseas buscar: "))
                                     directorio.buscar_contacto_celular(cel)
                         opcionn = ''
-                    case 'S':
-                        nombre = input('Escribe el nombre del archivo con terminación csv con el que deseas guardar: ')
-                        directorio.escritura_csvs(nombre)
-                        print(f'El directorio se guardo en el archivo csv "{nombre}"')
+                    case 'S':  # 'S. Guardar y Salir \n').upper()
+                        directorio.escritura_csvs(nom)
+                        print(f'El directorio se guardo en el archivo csv "{nom}"')
                         print("Hasta luego")
         case 'S':
             print('Hasta luego')

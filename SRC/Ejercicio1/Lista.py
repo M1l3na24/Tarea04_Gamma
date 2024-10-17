@@ -9,7 +9,7 @@ import Listable as Li
 
 
 class Lista(Li.Listable):
-    def __init__(self, comparador):
+    def __init__(self, comparador: callable):
         """
         Constructor por omisión de la clase Lista
         """

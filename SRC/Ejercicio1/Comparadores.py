@@ -93,7 +93,7 @@ def edad_nombre(a: cP.Persona, b: cP.Persona):
             return dif_edad
 
 
-def nombre_comparador(a: cP.Persona.nombre_completo, b: cP.Persona.nombre_completo):
+def nombre_ascendente(a: cP.Persona.nombre_completo, b: cP.Persona.nombre_completo):
     """
     Metodo para determinar la relacion de los Contactos con respecto al nombre.
     :param a: El nombre del primer Contacto a comparar
