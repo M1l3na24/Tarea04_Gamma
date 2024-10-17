@@ -6,7 +6,6 @@
 
 import csv
 import Lista as Li
-import clasePersona as cP
 import claseAlumno as cA
 import claseProfesor as cPr
 import claseCoordinador as cC
@@ -907,9 +906,6 @@ class Directorio:
         Esto segun la eleccion del usuario
         :param eleccion: 0 si alumnos, 1 si maestros
         """
-        alumnos = ''
-        profesores = ''
-        coordinadores = ''
         if not self.__lista.esta_vacia():
             actual = self.__lista.inicio
             if eleccion == 0:
