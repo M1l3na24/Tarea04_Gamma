@@ -475,26 +475,41 @@ class Directorio:
                     match opcion:
                         case "1":
                             nuevonombre = input('Escribe el nuevo nombre del Alumno a actualizar: ')
-                            alumno._Persona__nombre_completo = nuevonombre
+                            alumno.nombre_completo = nuevonombre
                             print('Nombre Actualizado \n')
                             opcion = ''
 
                         case "2":
-                            nuevocelular = int(input('Escribe la nuevo celular del alumno: '))
-                            alumno._Persona__celular = nuevocelular
-                            print('Celular Actualizado \n')
+                            while True:
+                                try:
+                                    nuevocelular = int(input('Escribe la nuevo celular del alumno: '))
+                                    alumno.celular = nuevocelular
+                                    print('Celular Actualizado \n')
+                                    break
+                                except ValueError:
+                                    print("Celular invalido \n")
                             opcion = ''
 
                         case "3":
-                            nuevocumple = int(input('Escribe el nuevo cumpleanios del alumno: '))
-                            alumno._Persona__fecha_cumpleanios = nuevocumple
-                            print('Cumpleanios Actualizado \n')
+                            while True:
+                                try:
+                                    nuevocumple = input('Escribe el nuevo cumpleanios del alumno (dia/mes/anio): ')
+                                    alumno.fecha_cumpleanios = nuevocumple
+                                    print('Cumpleanios Actualizado \n')
+                                    break
+                                except ValueError:
+                                    print("Fecha de cumpleanios invalida.\n")
                             opcion = ''
 
                         case "4":
-                            nuevoemail = input('Escribe el nuevo email del alumno: ')
-                            alumno._Persona__email = nuevoemail
-                            print('Email Actualizado \n')
+                            while True:
+                                try:
+                                    nuevoemail = input('Escribe el nuevo email del alumno: ')
+                                    alumno.email = nuevoemail
+                                    print('Email Actualizado \n')
+                                    break
+                                except ValueError:
+                                    print("Email invalido\n")
                             opcion = ''
 
                         case "5":
@@ -503,7 +518,7 @@ class Directorio:
                                     nuevonumcuenta = int(input('Escribe el nuevo numero de cuenta del alumno: '))
                                     break
                                 except ValueError:
-                                    print('El numero de cuenta del alumno, tiene que ser un entero')
+                                    print('El numero de cuenta del alumno, tiene que ser un entero\n')
                             self.__numeros_cuenta.remove(alumno.num_cuenta)
                             alumno.num_cuenta = nuevonumcuenta
                             self.__numeros_cuenta.add(nuevonumcuenta)
@@ -512,20 +527,25 @@ class Directorio:
 
                         case "6":
                             nueva_carrera = input('Escribe la nueva carrera del alumno: ')
-                            alumno.__carrera = nueva_carrera
+                            alumno.carrera = nueva_carrera
                             print('Carrera  Actualizada \n')
                             opcion = ''
 
                         case "7":
                             nuevamaterias = list(input('Escribe la nueva lista de materias del alumno: '))
-                            alumno.__materias = list(nuevamaterias)
+                            alumno.materias = list(nuevamaterias)
                             print('Materias Actualizadas \n')
                             opcion = ''
 
                         case "8":
-                            nuevsemestre = int(input('Escribe la nueva lista de materias del alumno: '))
-                            alumno.__semestre = nuevsemestre
-                            print('Materias Actualizadas \n')
+                            while True:
+                                try:
+                                    nuevsemestre = int(input('Escribe la nueva lista de materias del alumno: '))
+                                    alumno.semestre = nuevsemestre
+                                    print('Semestre Actualizado \n')
+                                    break
+                                except ValueError:
+                                    print('El numero de cuenta del alumno, tiene que ser un entero\n')
                             opcion = ''
 
                         case "S":
@@ -553,26 +573,41 @@ class Directorio:
                     match opcion:
                         case "1":
                             nuevonombre = input('Escribe el nuevo nombre del profesor a actualizar: ')
-                            profesor._Persona__nombre_completo = nuevonombre
+                            profesor.nombre_completo = nuevonombre
                             print('Nombre Actualizado \n')
                             opcion = ''
 
                         case "2":
-                            nuevocelular = int(input('Escribe la nuevo celular del profesor: '))
-                            profesor._Persona__celular = nuevocelular
-                            print('Celular Actualizado \n')
+                            while True:
+                                try:
+                                    nuevocelular = int(input('Escribe la nuevo celular del profesor: '))
+                                    profesor.celular = nuevocelular
+                                    print('Celular Actualizado \n')
+                                    break
+                                except ValueError:
+                                    print("Celular invalido \n")
                             opcion = ''
 
                         case "3":
-                            nuevocumple = int(input('Escribe el nuevo cumpleanios del profesor: '))
-                            profesor._Persona__fecha_cumpleanios = nuevocumple
-                            print('Cumpleanios Actualizado \n')
+                            while True:
+                                try:
+                                    nuevocumple = input('Escribe el nuevo cumpleanios del profesor (dia/mes/anio): ')
+                                    profesor.fecha_cumpleanios = nuevocumple
+                                    print('Cumpleanios Actualizado \n')
+                                    break
+                                except ValueError:
+                                    print("Fecha invalida \n")
                             opcion = ''
 
                         case "4":
-                            nuevoemail = input('Escribe el nuevo email del profesor: ')
-                            profesor._Persona__email = nuevoemail
-                            print('Email Actualizado \n')
+                            while True:
+                                try:
+                                    nuevoemail = input('Escribe el nuevo email del profesor: ')
+                                    profesor.email = nuevoemail
+                                    print('Email Actualizado \n')
+                                    break
+                                except ValueError:
+                                    print("Email invalido \n")
                             opcion = ''
 
                         case "5":
@@ -589,14 +624,24 @@ class Directorio:
                             opcion = ''
 
                         case "6":
-                            nuevoteloficina = int(input('Escribe el nuevo telefono de oficina del profesor: '))
-                            profesor.__tel_oficina = nuevoteloficina
+                            while True:
+                                try:
+                                    nuevoteloficina = int(input('Escribe el nuevo telefono de oficina del profesor: '))
+                                    break
+                                except ValueError:
+                                    print('El numero de telefono del profesor, tiene que ser un entero')
+                            profesor.tel_oficina = nuevoteloficina
                             print('Tel. Oficina Actualizado \n')
                             opcion = ''
 
                         case "7":
-                            nuevosueldo = int(input('Escribe el nuevo sueldo del profesor: '))
-                            profesor.__sueldo = nuevosueldo
+                            while True:
+                                try:
+                                    nuevosueldo = float(input('Escribe el nuevo sueldo del profesor: '))
+                                    break
+                                except ValueError:
+                                    print('El sueldo del profesor, tiene que ser un entero')
+                            profesor.sueldo = nuevosueldo
                             print('Sueldo Actualizado \n')
                             opcion = ''
 
@@ -643,26 +688,42 @@ class Directorio:
                     match opcion:
                         case "1":
                             nuevonombre = input('Escribe el nuevo nombre del coordinador a actualizar: ')
-                            coordinador.__nombre_completo = nuevonombre
+                            coordinador.nombre_completo = nuevonombre
                             print('Nombre Actualizado \n')
                             opcion = ''
 
                         case "2":
-                            nuevocelular = int(input('Escribe la nuevo celular del coordinador: '))
-                            coordinador.__celular = nuevocelular
-                            print('Celular Actualizado \n')
+                            while True:
+                                try:
+                                    nuevocelular = int(input('Escribe la nuevo celular del coordinador: '))
+                                    coordinador.celular = nuevocelular
+                                    print('Celular Actualizado \n')
+                                    break
+                                except ValueError:
+                                    print("Celular invalido \n")
                             opcion = ''
 
                         case "3":
-                            nuevocumple = int(input('Escribe el nuevo cumpleanios del coordinador: '))
-                            coordinador.__fecha_cumpleanios = nuevocumple
-                            print('Cumpleanios Actualizado \n')
+                            while True:
+                                try:
+                                    nuevocumple = int(input(
+                                        'Escribe el nuevo cumpleanios del coordinador (dia/mes/anio): '))
+                                    coordinador.fecha_cumpleanios = nuevocumple
+                                    print('Cumpleanios Actualizado \n')
+                                    break
+                                except ValueError:
+                                    print("Cumpleanios invalido \n")
                             opcion = ''
 
                         case "4":
-                            nuevoemail = input('Escribe el nuevo email del coordinador: ')
-                            coordinador.__email = nuevoemail
-                            print('Email Actualizado \n')
+                            while True:
+                                try:
+                                    nuevoemail = input('Escribe el nuevo email del coordinador: ')
+                                    coordinador.email = nuevoemail
+                                    print('Email Actualizado \n')
+                                    break
+                                except ValueError:
+                                    print("Email invalido \n")
                             opcion = ''
 
                         case "5":
@@ -674,32 +735,43 @@ class Directorio:
                                 except ValueError:
                                     print('El numero de empleado del coordinador, tiene que ser un entero')
                             self.__numeros_empleado.remove(coordinador.num_empleado)
-                            coordinador.__num_empleado = nuevonumempleado
+                            coordinador.num_empleado = nuevonumempleado
                             self.__numeros_empleado.add(coordinador.num_empleado)
                             print('Numero de Empleado Actualizado \n')
                             opcion = ''
 
                         case "6":
-                            nuevoteloficina = int(input('Escribe el nuevo telefono de oficina del coordinador: '))
-                            coordinador.__tel_oficina = nuevoteloficina
-                            print('Tel. Oficina Actualizado \n')
+                            while True:
+                                try:
+                                    nuevoteloficina = int(
+                                        input('Escribe el nuevo telefono de oficina del coordinador: '))
+                                    coordinador.tel_oficina = nuevoteloficina
+                                    print('Tel. Oficina Actualizado \n')
+                                    break
+                                except ValueError:
+                                    print("Telefono invalido \n")
                             opcion = ''
 
                         case "7":
-                            nuevosueldo = int(input('Escribe el nuevo sueldo del coordinador: '))
-                            coordinador.__sueldo = nuevosueldo
-                            print('Sueldo Actualizado \n')
+                            while True:
+                                try:
+                                    nuevosueldo = float(input('Escribe el nuevo sueldo del coordinador: '))
+                                    coordinador.sueldo = nuevosueldo
+                                    print('Sueldo Actualizado \n')
+                                    break
+                                except ValueError:
+                                    print("Sueldo invalido \n")
                             opcion = ''
 
                         case "8":
                             nuevodeptads = input('Escribe el nuevo Dept. de Ads. del coordinador: ')
-                            coordinador.__dept_ads = nuevodeptads
+                            coordinador.dept_ads = nuevodeptads
                             print('Dept. de Ads. Actualizado \n')
                             opcion = ''
 
                         case "9":
                             nuevocarrera = input('Escribe la nueva carrera que coordina: ')
-                            coordinador.__carrera_coordina = nuevocarrera
+                            coordinador.carrera_coordina = nuevocarrera
                             print('Carrera Actualizada \n')
                             opcion = ''
 
