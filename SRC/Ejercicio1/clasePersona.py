@@ -3,6 +3,7 @@
 # Autores: Milena Rivera, Carlos Barrera, Isaac Garrido, Mayela Rosas
 # Fecha: 09-09-2024
 
+from datetime import date
 from validate_email import validate_email
 
 
@@ -109,6 +110,17 @@ class Persona:
             print("El correo no es valido!\n"
                   f"Se conservo el mismo email: {self.__email}")
             self.__email = self.__email
+
+    def edad(self):
+        """
+        Método para calcular la edad de una Persona
+        :return: La edad de la Persona en años
+        :rtype: int
+        """
+        hoy = date.today()  # Fecha actual
+        diferencia_dias = hoy - self.__fecha_cumpleanios
+        edad = diferencia_dias.days // 365.25
+        return int(edad)
 
     # Metodos calculadores
     def __str__(self):

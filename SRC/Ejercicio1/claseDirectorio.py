@@ -3,13 +3,14 @@
 # Autores: Milena Rivera, Carlos Barrera, Isaac Garrido, Mayela Rosas
 # Version: 16-10-2024
 
-import copy
+
 import csv
 import Lista as Li
 import clasePersona as cP
 import claseAlumno as cA
 import claseProfesor as cPr
 import claseCoordinador as cC
+import Comparadores as Comp
 
 
 def menu_actualizar_coordinador() -> str:
@@ -90,36 +91,8 @@ def menu_actualizar_alumno() -> str:
     return opcion
 
 
-def comparador_contactos(a, b):
-    """
-    Comparador para ordenar contactos por nombre.
-    Retorna:
-        -1 si a < b
-         0 si a == b
-         1 si a > b
-    """
-    if a.nombre_completo < b.nombre_completo:
-        return -1
-    elif a.nombre_completo > b.nombre_completo:
-        return 1
-    else:
-        return 0
-
-
-def tamanio_csv(archivo_csv):
-    """
-    Metodo extra necesario para saber de que tamanio sera el directorio
-    :param: archivo_csv - nombre del archivo al que se le contara las lineas
-    :return: n - numero lineas del csv
-    """
-    with open(archivo_csv, "r") as archivo_csv:
-        lector_csv = csv.reader(archivo_csv, delimiter=',')
-        n = sum(1 for _ in lector_csv)
-    return n
-
-
 class Directorio:
-    def __init__(self):
+    def __init__(self, comparador: callable):
         """
         Constructor que permite crear el objeto Directorio (escolar) que será
         un directorio que contendrá contactos (alumnos, profesores, coordinadores)
@@ -127,8 +100,7 @@ class Directorio:
         Se construye como un directorio nuevo: vacío por default.
         """
         # Crear una lista vacía con el comparador definido
-        self.__lista = Li.Lista(comparador_contactos)
-        self.__centinela = self.__lista.inicio
+        self.__lista = Li.Lista(comparador)
         self.__numeros_cuenta = set()
         self.__numeros_profesor = set()
         self.__numeros_empleado = set()
@@ -272,20 +244,15 @@ class Directorio:
         self.__agregar_a_lista(nuevo_coordinador)
         print('Coordinador agregado\n')
 
-    def buscar_indice(self, nombre_completo) -> int:
+    def buscar_nodo(self, persona) -> object:
         """
-        Método auxiliar que busca una persona en la lista de directorio, dado el nombre completo.
-        :param nombre_completo: El nombre completo a buscar en el directorio.
-        :return: índice (basado en la posición relativa en la lista) si se encuentra, -1 si no.
+        Método auxiliar que busca el nodo que contiene a una persona en la lista de directorio,
+        dado el nombre completo.
+        :param persona: La persona a buscar en el directorio.
+        :return: nodo_1: nodo en el que se encuentra la persona.
         """
-        actual = self.__lista.inicio  # Cambiado para usar la lista simplemente ligada
-        indice = 0
-        while actual is not None:
-            if actual.elemento.nombre_completo == nombre_completo:  # Se usa 'nombre' en vez de 'nombre_completo'
-                return indice
-            actual = actual.siguiente
-            indice += 1
-        raise ValueError('No se encuentra en el directorio')
+        nodo_1 = self.__lista.buscar(persona)
+        return nodo_1
 
     def esta_vacio(self) -> bool:
         """
@@ -379,145 +346,24 @@ class Directorio:
         f.close()
         print(f"Archivo {nombre_archivo} guardado correctamente.")
 
-    def __particion(self, inicio, fin, comparador) -> int:
+# Reedefinir el orden de la lista
+
+    # Creo una nueva lista con un comparador diferente y reedefino mi lista inicial
+    def ordenar_directorio(self, comparador):
         """
-        Función que organiza los elementos de la lista de manera que todos los elementos
-        menores o iguales al pivote están a la izquierda, y los mayores a la derecha.
-        :param inicio: La posición inicial.
-        :param fin: La posición final.
-        :param comparador: El comparador con el que se desea hacer el ordenamiento.
-        :return: La posición correcta del pivote.
-        """
-        actual = self.__lista.inicio
-        for _ in range(inicio):
-            actual = actual.siguiente
-
-        if actual is None:
-            raise ValueError("No se pudo encontrar el nodo en la posición 'inicio'.")
-
-        pivote = actual.elemento
-        left = inicio + 1
-        right = fin
-        while True:
-            while left <= right:
-                nodo_left = self.obtener_nodo(left)
-                if comparador(nodo_left.elemento, pivote) > 0:
-                    break
-                left += 1
-            while comparador(self.obtener_nodo(right).elemento, pivote) > 0 and right >= left:
-                right -= 1
-            if right < left:
-                break
-            else:
-                # Intercambiamos los nodos izquierdo y derecho
-                self.intercambiar_nodos(left, right)
-        # Movemos el pivote a su posición correcta
-        self.intercambiar_nodos(inicio, right)
-        return right
-
-    def obtener_nodo(self, posicion: int):
-        """
-        Método que obtiene el nodo en una posición específica de la lista simplemente ligada.
-        :param posicion: La posición del nodo que se desea obtener (basada en índice 0).
-        :return: El nodo encontrado en la posición indicada o None si no existe.
-        """
-        actual = self.__lista.inicio  # El primer nodo después del centinela
-        indice_actual = 0
-
-        # Recorremos la lista hasta llegar a la posición deseada o al final
-        while actual is not None and indice_actual < posicion:
-            actual = actual.siguiente
-            indice_actual += 1
-
-        # Si el nodo existe en la posición, lo retornamos
-        if actual is not None and indice_actual == posicion:
-            return actual
-        else:
-            return None  # Retornamos None si la posición no es válida
-
-    def intercambiar_nodos(self, particion, nodo1, nodo2):
-        """
-        Método que intercambia dos nodos en una partición de la lista simplemente ligada.
-        :param particion: La partición donde se encuentran los nodos.
-        :param nodo1: Primer nodo a intercambiar.
-        :param nodo2: Segundo nodo a intercambiar.
-        """
-        if nodo1 == nodo2:
-            return  # Si los nodos son iguales, no hacemos nada
-
-        # Buscamos los nodos predecesores de nodo1 y nodo2 en la partición
-        anterior_nodo1, anterior_nodo2 = None, None
-        actual = self.__particion(particion)  # Comenzamos en el centinela de la partición
-        while actual.siguiente is not None:
-            if actual.siguiente == nodo1:
-                anterior_nodo1 = actual
-            elif actual.siguiente == nodo2:
-                anterior_nodo2 = actual
-            actual = actual.siguiente
-
-        if anterior_nodo1 is None or anterior_nodo2 is None:
-            return  # Si alguno de los nodos no fue encontrado, no hacemos nada
-
-        # Intercambiamos los nodos
-        if anterior_nodo1.siguiente == nodo1 and anterior_nodo2.siguiente == nodo2:
-            # Si los nodos son adyacentes, manejamos los enlaces de manera especial
-            if nodo1.siguiente == nodo2:
-                # Si nodo1 está justo antes de nodo2
-                nodo1.siguiente = nodo2.siguiente
-                nodo2.siguiente = nodo1
-                anterior_nodo1.siguiente = nodo2
-            else:
-                # Si nodo2 está justo antes de nodo1
-                nodo2.siguiente = nodo1.siguiente
-                nodo1.siguiente = nodo2
-                anterior_nodo2.siguiente = nodo1
-        else:
-            # Si los nodos no son adyacentes
-            temp = nodo1.siguiente
-            nodo1.siguiente = nodo2.siguiente
-            nodo2.siguiente = temp
-            anterior_nodo1.siguiente = nodo2
-            anterior_nodo2.siguiente = nodo1
-
-    # Quick sort
-    def ordenar_directorio(self, inicio, fin, comparador):
-        """
-        Esta funcion aplica recursivamente el algoritmo Quick Sort a los subarreglos definidos por el pivote.
-        :param inicio: La posicion inicial
-        :param fin: La posicion final
+        Este metodo permitira reordenar la lista a partir de otro comparador.
         :param comparador: El comparador con el que se desea hacer el ordenamiento
-        :return: Arreglo de contactos ordenado
+        :return: el directorio nuevo ordenado
         """
-        if inicio < fin:
-            posicion_part = self.__particion(inicio, fin, comparador)
-            self.ordenar_directorio(inicio, posicion_part - 1, comparador)
-            self.ordenar_directorio(posicion_part + 1, fin, comparador)
-
-# Tipos de comparadores: Ordenar alfabeticamente
-    def __compare_strings(self, str1: str, str2: str) -> int:
-        """
-        Metodo privado para comparar dos cadenas y devolver su relacion de orden en terminos de un int
-        :param str1: Primera cadena a comparar
-        :param str2: Segunda cadena a comparar
-        :return: -1 si str1 lexicograficamente es menor que str2, 0 si son iguales, 1 en otro caso
-        """
-        if str1 < str2:
-            return -1
-        elif str1 > str2:
-            return 1
-        else:
-            return 0
-
-    def nombre_comparador(self, a: cP.Persona.nombre_completo, b: cP.Persona.nombre_completo):
-        """
-        Metodo para determinar la relacion de los Contactos con respecto al nombre.
-        :param a: El nombre del primer Contacto a comparar
-        :param b: El nombre del segundo Contacto a comparar
-        :return: Valor positivo si el nombre de a es mayor que b, negativo si el nombre de
-                 b es mayo que a. Si es el mismo nombre, regresa un 0.
-        """
-        dif_nombre = self.__compare_strings(a, b)
-        return dif_nombre
+        nuevo_directorio = Li.Lista(comparador)
+        it1 = iter(self.__lista)
+        try:
+            while True:
+                elem = next(it1)
+                nuevo_directorio.agregar(elem)
+        except StopIteration:
+            pass
+        self.__lista = nuevo_directorio
 
     def mostrar_informacion_contacto(self, nombre, rol):
         """
@@ -528,7 +374,7 @@ class Directorio:
         :param rol - tipo de objeto
         :return un string con la informacion completa del contacto con esas caracteristicas.
         """
-        self.ordenar_directorio(0, self.__num_personas - 1, self.nombre_comparador)
+        # self.ordenar_directorio(0, self.__num_personas - 1, self.nombre_comparador)
         # Determinar la clase de la persona según el rol
         if rol == 'alumno':
             rol_clase = cA.Alumno
@@ -560,7 +406,7 @@ class Directorio:
         """
         Elimina los datos de un contacto a partir del nombre.
         """
-        self.ordenar_directorio(0, self.__num_personas - 1, self.nombre_comparador)
+        # self.ordenar_directorio(0, self.__num_personas - 1, self.nombre_comparador)
 
         if self.esta_vacio():
             print("No hay contactos.")
@@ -582,17 +428,29 @@ class Directorio:
         if not encontrado:
             print(f"No se encontró contacto con el nombre completo: {nombre}")
 
+    def buscar_nodo_nomcompleto(self, nom):
+        """
+        Metodo que permite buscar el nodo que contiene a la persona con un cierto atributo
+        :param nom: Atributo (Nombre completo) a partir del cual se desea buscar a una persona
+        :return: nodo que lo contiene
+        """
+        pos = self.__lista.inicio
+        while pos is not None and not pos.elemento.nombre_completo == nom:
+            pos = pos.siguiente
+        return pos
+
+######################
     def actualizar_alumno(self):
         """
-        Metodo para actualizar un contacto del tipo allumno, si se encuentra el nombre completo del alumno
+        Metodo para actualizar un contacto del tipo alumno, si se encuentra el nombre completo del alumno
         desplegara un menu para saber que valor actualizar. Si no imprimira un mensaje.
         """
         nom_completo = input('Escribe el nombre completo del alumno: ')
-        indice = self.buscar_indice(nom_completo)
-        if indice == -1:
+        nodo = self.buscar_nodo_nomcompleto(nom_completo)
+        if nodo is None:
             print(f"No se encuentra el alumno con nombre completo {nom_completo}")
         else:
-            alumno = self.obtener_nodo(indice)
+            alumno = nodo.elemento
             if isinstance(alumno, cA.Alumno) and not isinstance(alumno, cPr.Profesor):
                 print(alumno)
                 opcion = ''
@@ -645,7 +503,7 @@ class Directorio:
 
                         case "7":
                             nuevamaterias = list(input('Escribe la nueva lista de materias del alumno: '))
-                            alumno.__materias = nuevamaterias
+                            alumno.__materias = list(nuevamaterias)
                             print('Materias Actualizadas \n')
                             opcion = ''
 
@@ -665,12 +523,12 @@ class Directorio:
         Metodo para actualizar un contacto del tipo Profesor, si se encuentra el nombre completo del profesor
         desplegara un menu para saber que valor actualizar. Si no imprimira un mensaje.
         """
-        nomcompleto = input('Escribe el nombre completo del profesor: ')
-        indice = self.buscar_indice(nomcompleto)
-        if indice == -1:
-            print(f"No se encuentra el profesor con nombre completo {nomcompleto}")
+        nom_completo = input('Escribe el nombre completo del profesor: ')
+        nodo = self.buscar_nodo_nomcompleto(nom_completo)
+        if nodo is None:
+            print(f"No se encuentra el profesor con nombre completo {nom_completo}")
         else:
-            profesor = self.obtener_nodo(indice)
+            profesor = nodo.elemento
             if isinstance(profesor, cPr.Profesor) and not isinstance(profesor, cC.Coordinador):
                 print(profesor)
                 opcion = ''
@@ -735,32 +593,32 @@ class Directorio:
 
                         case "9":
                             nuevocarrera = input('Escribe la nueva carrera donde imparte materias el profesor: ')
-                            profesor.__dept_ads = nuevocarrera
+                            profesor.__carrera = nuevocarrera
                             print('Carrera Actualizada \n')
                             opcion = ''
 
                         case '10':
                             nuevgrup = list(input('Escribe la nueva lista de grupos del profesor: '))
-                            profesor.__grupos = nuevgrup
+                            profesor.__grupos = list(nuevgrup)
                             print('Materias Actualizadas \n')
                             opcion = ''
 
                         case "S":
                             print('Volviendo ...')
             else:
-                print(f"No se encuentra el profesor con nombre {nomcompleto}")
+                print(f"No se encuentra el profesor con nombre {nom_completo}")
 
     def actualizar_coordinador(self):
         """
         Metodo para actualizar un contacto del tipo Coordinador, si se encuentra el nombre completo del coordinador
         desplegara un menu para saber que valor actualizar. Si no imprimira un mensaje.
         """
-        nomcompleto = input('Escribe el nombre completo del coordinador: ')
-        indice = self.buscar_indice(nomcompleto)
-        if indice == -1:
-            print(f"No se encuentra el coordinador con nombre completo {nomcompleto}")
+        nom_completo = input('Escribe el nombre completo del coordinador: ')
+        nodo = self.buscar_nodo_nomcompleto(nom_completo)
+        if nodo is None:
+            print(f"No se encuentra el coordinador con nombre completo {nom_completo}")
         else:
-            coordinador = self.obtener_nodo(indice)
+            coordinador = nodo.elemento
             if isinstance(coordinador, cC.Coordinador) and not isinstance(coordinador, cPr.Profesor):
                 print(coordinador)
                 opcion = ''
@@ -770,25 +628,25 @@ class Directorio:
                     match opcion:
                         case "1":
                             nuevonombre = input('Escribe el nuevo nombre del coordinador a actualizar: ')
-                            coordinador._Persona__nombre_completo = nuevonombre
+                            coordinador.__nombre_completo = nuevonombre
                             print('Nombre Actualizado \n')
                             opcion = ''
 
                         case "2":
                             nuevocelular = int(input('Escribe la nuevo celular del coordinador: '))
-                            coordinador._Persona__celular = nuevocelular
+                            coordinador.__celular = nuevocelular
                             print('Celular Actualizado \n')
                             opcion = ''
 
                         case "3":
                             nuevocumple = int(input('Escribe el nuevo cumpleanios del coordinador: '))
-                            coordinador._Persona__fecha_cumpleanios = nuevocumple
+                            coordinador.__fecha_cumpleanios = nuevocumple
                             print('Cumpleanios Actualizado \n')
                             opcion = ''
 
                         case "4":
                             nuevoemail = input('Escribe el nuevo email del coordinador: ')
-                            coordinador._Persona__email = nuevoemail
+                            coordinador.__email = nuevoemail
                             print('Email Actualizado \n')
                             opcion = ''
 
@@ -833,7 +691,7 @@ class Directorio:
                         case "S":
                             print('Volviendo ...')
             else:
-                print(f"No se encuentra el coordinador con nombre {nomcompleto}")
+                print(f"No se encuentra el coordinador con nombre {nom_completo}")
 
     def mostrar_contactos_por_sueldo(self, sueldo: float):
         """
@@ -843,7 +701,7 @@ class Directorio:
         :param sueldo: int - el sueldo especifico que busco
         :return un string ordenado que divide profesores y coordinadores con ese sueldo especifico.
         """
-        self.ordenar_directorio(0, self.__num_personas - 1, self.nombre_comparador)  # Ordenamos la lista
+        self.ordenar_directorio(Comp.salario_descendente)  # Ordenamos la lista
         actual = self.__lista.inicio
         profesores = ''
         coordinadores = ''
@@ -859,7 +717,6 @@ class Directorio:
 
         print("\nPROFESORES:\n" + profesores + "\nCOORDINADORES:\n" + coordinadores)
 
-    # Issac
     def contiene(self, contacto) -> bool:
         """
         Metodo que permite determinar si un contacto esta contenido en el Directorio
@@ -874,7 +731,6 @@ class Directorio:
         :param contacto: El contacto que se va a eliminar
         """
         # Hay que asegurarnos que el arreglo no este vacío y el elemento exista
-        self.ordenar_directorio(0, self.__num_personas-1, self.nombre_comparador)
         if not self.esta_vacio() and self.contiene(contacto):
             self.__lista.eliminar(contacto)
             print(f"El contacto {contacto} fue eliminado!\n")
@@ -886,18 +742,15 @@ class Directorio:
         Elimina los datos de un contacto a partir del numero de celular.
         :param celular:int - El celular del contacto que se va a eliminar.
         """
-        self.ordenar_directorio(0, self.__num_personas - 1, self.nombre_comparador)
-
         # Buscamos el contacto por número de celular
         actual = self.__lista.inicio
         while actual is not None:
             if actual.elemento.celular == celular:
                 # Usamos el método eliminar de la clase Lista
-                self.eliminar(actual.elemento)
+                self.__lista.eliminar(actual)
                 print(f"El contacto con el número de celular '{celular}' ha sido eliminado.")
                 return
             actual = actual.siguiente
-
         print(f"No se encontró contacto con el número de celular: {celular}")
 
     def eliminar_email(self, correo):
@@ -905,62 +758,24 @@ class Directorio:
         Elimina los datos de un contacto a partir del correo electronico.
         :param: correo:str - el correo de la persona que busco.
         """
-        self.ordenar_directorio(0, self.__num_personas - 1, self.nombre_comparador)
-
+        # Buscamos el contacto con ese correo
         actual = self.__lista.inicio
         while actual is not None:
             if actual.elemento.email == correo:
                 # Usamos el método eliminar de la clase Lista
-                self.eliminar(actual.elemento)
+                self.eliminar(actual)
                 print(f"El contacto con el número de celular '{correo}' ha sido eliminado.")
                 return
             actual = actual.siguiente
-
         print(f"No se encontró contacto con el número de celular: {correo}")
-
-    def buscar_indice_cum(self, cumpleanios) -> int:
-        """
-        Método auxiliar que busca el índice del arreglo de directorio, dado la fecha de cumpleaños de una persona.
-        :param cumpleanios: La fecha de cumpleaños a buscar en el directorio.
-        :return: El índice (int) del arreglo del directorio si se encuentra un valor >= 0.
-                 Si no se encuentra en el arreglo, retorna un valor < 0.
-        :rtype: int
-        """
-        actual = self.__lista.inicio
-        while actual is not None:
-            if actual.elemento.fecha_cumpleanios == cumpleanios:
-                print(actual.elemento)
-                return self.buscar_indice(actual.elemento.nombre_completo)
-            actual = actual.siguiente
-        print(f"No se encontró un contacto con cumpleaños {cumpleanios}")
-
-    def buscar_indice_cel(self, celular) -> int:
-        """
-        Método auxiliar que busca el índice del arreglo de directorio, dado el número de celular de una persona.
-
-        :param celular: El número de celular a buscar en el directorio.
-        :return: El índice (int) del arreglo del directorio si se encuentra un valor >= 0.
-                 Si no se encuentra en el arreglo, retorna un valor < 0.
-        :rtype: int
-        """
-        actual = self.__lista.inicio
-        while actual is not None:
-            if actual.elemento.celular == celular:
-                print(actual.elemento)
-                return self.buscar_indice(actual.elemento.celular)
-            actual = actual.siguiente
-        print(f"No se encontró un contacto con cumpleaños {celular}")
 
     def buscar_contacto_celular(self, celular: int):
         """
         Busca un contacto en el directorio a partir de su número de celular.
-
+        Nota: Imprime el contacto si es encontrado, o un mensaje si no lo es.
         :param celular: int - Número de celular del contacto.
-        :return: Imprime el contacto si es encontrado, o un mensaje si no lo es.
+        :return: El contacto si es encontrado, sino None
         """
-        # Ordenamos el directorio por nombre antes de buscar
-        self.ordenar_directorio(0, self.__num_personas - 1, self.nombre_comparador)
-
         # Usamos la lista para recorrer los contactos
         actual = self.__lista.inicio
         while actual is not None:
@@ -968,7 +783,6 @@ class Directorio:
                 print(actual.elemento)
                 return actual.elemento
             actual = actual.siguiente
-
         # Mensaje si no encuentra el contacto
         print(f"No se encontró un contacto con celular {celular}")
         return None
@@ -976,24 +790,18 @@ class Directorio:
     def buscar_contacto_cum(self, cumpleanios: str):
         """
         Busca un contacto en el directorio a partir de su fecha de cumpleaños.
-
+        Nota: Imprime el contacto si es encontrado, o un mensaje si no lo es
         :param cumpleanios: str - Fecha de cumpleaños del contacto.
         :return: Imprime el contacto si es encontrado, o un mensaje si no lo es.
         """
-        # Ordenamos el directorio antes de buscar
-        self.ordenar_directorio(0, self.__num_personas - 1, self.nombre_comparador)
-
         actual = self.__lista.inicio
         while actual is not None:
             if actual.elemento.fecha_cumpleanios == cumpleanios:
                 print(actual.elemento)
                 return actual.elemento
             actual = actual.siguiente
-
         print(f"No se encontró un contacto con cumpleaños {cumpleanios}")
         return None
-
-    # Carlos
 
     def __str__(self) -> (str, str, str):
         """
@@ -1001,19 +809,19 @@ class Directorio:
         :return: Una cadena de caracteres que incluiran la informacion de contacto.
         """
         cadena = ''
-        self.ordenar_directorio(0, self.__num_personas-1, self.nombre_comparador)
-        if not self.esta_vacio():
+        if not self.__lista.esta_vacia():
             alumnos = []
             profesores = []
             coordinadores = []
-            for indice in range(self.__num_personas):  # Si __num_personas es la longitud de la lista
-                nodo = self.obtener_nodo(indice)  # Obtener el nodo en la posición 'indice'
-                if isinstance(nodo, cA.Alumno):
-                    alumnos.append(nodo)
-                elif isinstance(nodo, cPr.Profesor):
-                    profesores.append(nodo)
-                elif isinstance(nodo, cC.Coordinador):
-                    coordinadores.append(nodo)
+            pos = self.__lista.inicio
+            while pos is not None:
+                if isinstance(pos.elemento, cA.Alumno):
+                    alumnos.append(pos.elemento)
+                elif isinstance(pos.elemento, cPr.Profesor):
+                    profesores.append(pos.elemento)
+                elif isinstance(pos.elemento, cC.Coordinador):
+                    coordinadores.append(pos.elemento)
+                pos = pos.siguiente
             if alumnos:
                 cadena += '\nAlumnos: '
                 for alumno in alumnos:
@@ -1043,25 +851,24 @@ class Directorio:
         Obs: por como fue definido la clase Persona, los objetos persona
         tienen un email valido.
         """
-        if self.esta_vacio():
+        if self.__lista.esta_vacia():
             print("No hay contactos.")
             return
+        else:
+            actual = self.__lista.inicio
+            alumnos = ''
+            profesores = ''
+            coordinadores = ''
 
-        actual = self.__lista.inicio
-        alumnos = ''
-        profesores = ''
-        coordinadores = ''
-
-        while actual is not None:
-            if actual.elemento.email == email:
-                if isinstance(actual.elemento, cA.Alumno):
-                    alumnos += str(actual.elemento) + '\n'
-                elif isinstance(actual.elemento, cPr.Profesor):
-                    profesores += str(actual.elemento) + '\n'
-                elif isinstance(actual.elemento, cC.Coordinador):
-                    coordinadores += str(actual.elemento) + '\n'
-            actual = actual.siguiente
-
+            while actual is not None:
+                if actual.elemento.email == email:
+                    if isinstance(actual.elemento, cA.Alumno):
+                        alumnos += str(actual.elemento) + '\n'
+                    elif isinstance(actual.elemento, cPr.Profesor):
+                        profesores += str(actual.elemento) + '\n'
+                    elif isinstance(actual.elemento, cC.Coordinador):
+                        coordinadores += str(actual.elemento) + '\n'
+                actual = actual.siguiente
         if alumnos or profesores or coordinadores:
             print('\nALUMNOS:\n' + alumnos + "\nPROFESORES:\n" + profesores + "\nCOORDINADORES:\n" + coordinadores)
         else:
@@ -1075,29 +882,24 @@ class Directorio:
         :param carrera_particular: str -la carrera especifica que busco
         :return un string ordenado que divide alumnos, profesores y coordinadores con esa carrera especifica.
         """
-        if self.esta_vacio():
-            print("No hay contactos.")
-            return
-
-        actual = self.__lista.inicio
         alumnos = ''
         profesores = ''
         coordinadores = ''
-
-        while actual is not None:
-            if actual.elemento.carrera == carrera_particular:  # Se usa 'nombre' en vez de 'nombre_completo'
-                if isinstance(actual.elemento, cA.Alumno):
-                    alumnos += str(actual.elemento) + '\n'
-                elif isinstance(actual.elemento, cPr.Profesor):
-                    profesores += str(actual.elemento) + '\n'
-                elif isinstance(actual.elemento, cC.Coordinador):
-                    coordinadores += str(actual.elemento) + '\n'
-            actual = actual.siguiente
-
-        if alumnos or profesores or coordinadores:
+        if not self.__lista.esta_vacia():
+            actual = self.__lista.inicio
+            while actual is not None:
+                if isinstance(actual.elemento, cA.Alumno) or isinstance(actual.elemento, cPr.Profesor):
+                    if isinstance(actual.elemento, cA.Alumno) and actual.elemento.carrera == carrera_particular:
+                        alumnos += str(actual.elemento) + '\n'
+                    elif isinstance(actual.elemento, cPr.Profesor) and actual.elemento.carrera == carrera_particular:
+                        profesores += str(actual.elemento) + '\n'
+                actual = actual.siguiente
+        else:
+            print("No hay contactos.")
+        if alumnos or profesores:  # coordinadores no tienen atributo carrera
             print('\nALUMNOS:\n' + alumnos + "\nPROFESORES:\n" + profesores + "\nCOORDINADORES:\n" + coordinadores)
         else:
-            print(f"No se encontró a la persona relacionada a la carrera {carrera_particular}.")
+            print(f"No se encontró a la persona con el correo {carrera_particular}.")
 
     def mostrar_alumnos_o_profesores(self, eleccion):
         """
@@ -1105,27 +907,26 @@ class Directorio:
         Esto segun la eleccion del usuario
         :param eleccion: 0 si alumnos, 1 si maestros
         """
-        self.ordenar_directorio(0, self.__num_personas - 1, self.nombre_comparador)
-        if self.esta_vacio():
-            print("No hay contactos.")
-            return
-
-        actual = self.__lista.inicio
-        if eleccion == 0:
-            alumnos = ''
-            while actual is not None:
-                if isinstance(actual.elemento, cA.Alumno):
-                    alumnos += str(actual.elemento) + '\n'
-                actual = actual.siguiente
-            print('Alumnos registrados:\n' + alumnos if alumnos else 'No hay alumnos registrados\n')
-
-        elif eleccion == 1:
-            profesores = ''
-            while actual is not None:
-                if isinstance(actual.elemento, cPr.Profesor):
-                    profesores += str(actual.elemento) + '\n'
-                actual = actual.siguiente
-            print('Profesores registrados:\n' + profesores if profesores else 'No hay profesores registrados\n')
-
+        alumnos = ''
+        profesores = ''
+        coordinadores = ''
+        if not self.__lista.esta_vacia():
+            actual = self.__lista.inicio
+            if eleccion == 0:
+                alumnos = ''
+                while actual is not None:
+                    if isinstance(actual.elemento, cA.Alumno):
+                        alumnos += str(actual.elemento) + '\n'
+                    actual = actual.siguiente
+                print('Alumnos registrados:\n' + alumnos if alumnos else 'No hay alumnos registrados\n')
+            elif eleccion == 1:
+                profesores = ''
+                while actual is not None:
+                    if isinstance(actual.elemento, cPr.Profesor):
+                        profesores += str(actual.elemento) + '\n'
+                    actual = actual.siguiente
+                print('Profesores registrados:\n' + profesores if profesores else 'No hay profesores registrados\n')
+            else:
+                print('No es una entrada válida')
         else:
-            print('No es una entrada válida')
+            print("No hay contactos.")
