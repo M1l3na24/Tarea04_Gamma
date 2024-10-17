@@ -391,4 +391,4 @@ if __name__ == "__main__":
                         print(f'El directorio se guardo en el archivo csv "{nom}"')
                         print("Hasta luego")
         case 'S':
-            print('Hasta luego')
+            print('Hasta luego.')
