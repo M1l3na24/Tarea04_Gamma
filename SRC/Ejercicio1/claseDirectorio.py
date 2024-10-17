@@ -149,14 +149,16 @@ class Directorio:
                 break
             except ValueError:
                 print('El semestre del alumno tiene que ser un entero.')
-
-        # Crear el objeto Alumno con los datos ingresados
-        nuevo_alumno = cA.Alumno(
-            nombre, celular, cumpleanios, correo, num_cuenta, carrera, materias.split(), semestre
-        )
-        # Agregar el nuevo alumno a la lista de contactos
-        self.__agregar_a_lista(nuevo_alumno)
-        print('Alumno agregado\n')
+        try:
+            # Crear el objeto Alumno con los datos ingresados
+            nuevo_alumno = cA.Alumno(nombre, celular, cumpleanios, correo, num_cuenta, carrera, materias.split(),
+                                     semestre)
+            # Agregar el nuevo alumno a la lista de contactos
+            self.__agregar_a_lista(nuevo_alumno)
+            print('Alumno agregado\n')
+        except ValueError:
+            self.__numeros_cuenta.remove(num_cuenta)
+            print("Alguno de los datos ingresados no es correcto. Intenta nuevamente.")
 
     def insertar_nuevo_profesor(self):
         """
@@ -197,10 +199,16 @@ class Directorio:
                 break
             except ValueError:
                 print('El telefono de oficina del profesor, tiene que ser un entero')
-        nuevo_profesor = cPr.Profesor(nombre, celular, cumpleanios, correo, num_profesor, tel_oficina, sueldo, dept,
-                                      carrera, grupos.split(','))
-        self.__agregar_a_lista(nuevo_profesor)
-        print('Profesor agregado\n')
+        try:
+            # Crear el objeto Profesor con los datos ingresados
+            nuevo_profesor = cPr.Profesor(nombre, celular, cumpleanios, correo, num_profesor, tel_oficina, sueldo, dept,
+                                          carrera, grupos.split(','))
+            # Agregar el nuevo profesor a la lista de contactos
+            self.__agregar_a_lista(nuevo_profesor)
+            print('Profesor agregado\n')
+        except ValueError:
+            self.__numeros_profesor.remove(num_profesor)
+            print("Alguno de los datos ingresados no es correcto. Intenta nuevamente.")
 
     def insertar_nuevo_coordinador(self):
         """
@@ -238,10 +246,16 @@ class Directorio:
                 break
             except ValueError:
                 print('El telefono de oficina del Coordinador, tiene que ser un entero')
-        nuevo_coordinador = cC.Coordinador(nombre, celular, cumpleanios, correo, num_empleado, tel_oficina, sueldo,
-                                           dept, carrera_coor)
-        self.__agregar_a_lista(nuevo_coordinador)
-        print('Coordinador agregado\n')
+        try:
+            # Crear el objeto Coordinador con los datos ingresados
+            nuevo_coordinador = cC.Coordinador(nombre, celular, cumpleanios, correo, num_empleado, tel_oficina, sueldo,
+                                               dept, carrera_coor)
+            # Agregar el nuevo coordinador a la lista de contactos
+            self.__agregar_a_lista(nuevo_coordinador)
+            print('Coordinador agregado\n')
+        except ValueError:
+            self.__numeros_empleado.remove(num_empleado)
+            print("Alguno de los datos ingresados no es correcto. Intenta nuevamente.")
 
     def buscar_nodo(self, persona) -> object:
         """
@@ -804,6 +818,7 @@ class Directorio:
     def __str__(self) -> (str, str, str):
         """
         Metodo que permitira mostrar el Directorio.
+        NOTA: Siempre los muestra agrupados por categoria (Alumno, Profesor, Coordinador)
         :return: Una cadena de caracteres que incluiran la informacion de contacto.
         """
         cadena = ''
@@ -840,8 +855,8 @@ class Directorio:
                     cadena += f'\n{str(coordinador)}'
             else:
                 cadena += '\n\nNo hay coordinadores registrados'
-            return cadena
         print('No hay contactos.')
+        return cadena
 
     def mostrar_contactos_con_email(self, email):
         """

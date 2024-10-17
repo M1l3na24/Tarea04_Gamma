@@ -23,7 +23,7 @@ def menu_principal() -> str:
                        '4. Actualizar los datos de un contacto \n'
                        "5. Buscar contacto \n"
                        'S. Guardar y Salir \n').upper()
-        if opcionn not in '1,2,3,4,5,S' or len(opcion) != 1:
+        if opcion not in '1,2,3,4,5,S' or len(opcion) != 1:
             print('Opcion incorrecta')
             continue
         else:
@@ -135,6 +135,9 @@ def menu_mostrar_info():
     return opcion
 
 
+directorio = None
+
+
 if __name__ == "__main__":
     print("Bienvenido al Programa donde se podra administrar los contactos de la escuela\n"
           "a travez de un directorio utilizando listas simplemente ligadas.")
@@ -178,8 +181,8 @@ if __name__ == "__main__":
                         directorio = cDir.Directorio(Comp.nombre_ascendente)
                         break
             print(f'Ya se creo el directorio vacio')
-            opcion = ''
-            while opcion != 'S':
+            opcionn = ''
+            while opcionn != 'S':
                 opcionn = menu_principal()
                 match opcionn:
                     case "1":  # '1. Insertar datos de un nuevo contacto\n'
@@ -194,6 +197,7 @@ if __name__ == "__main__":
                                     directorio.insertar_nuevo_coordinador()
                                 case 'S':
                                     print('Regresando al menu principal')
+                                    continue
                         opcionn = " "
                     case '2':  # '2. Mostrar información de un contacto\n'
                         while opcionn != 'S':
@@ -308,14 +312,15 @@ if __name__ == "__main__":
                         while opcionn != 'S':
                             opcionn = menu_insertar_datos()
                             match opcionn:
-                                case '1':
+                                case '1':  # '1. Agregar Alumno\n'
                                     directorio.insertar_nuevo_alumno()
-                                case '2':
+                                case '2':  # '2. Agregar Profesor\n'
                                     directorio.insertar_nuevo_profesor()
-                                case '3':
+                                case '3':  # '3. Agregar Coordinador\n'
                                     directorio.insertar_nuevo_coordinador()
                                 case 'S':
                                     print('Regresando al menu principal')
+                                    continue
                         opcionn = " "
                     case '2':  # '2. Mostrar información de un contacto\n'
                         while opcionn != 'S':
