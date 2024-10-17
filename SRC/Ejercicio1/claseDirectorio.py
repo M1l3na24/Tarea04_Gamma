@@ -157,7 +157,8 @@ class Directorio:
             self.__agregar_a_lista(nuevo_alumno)
             print('Alumno agregado\n')
         except ValueError:
-            self.__numeros_cuenta.remove(num_cuenta)
+            if num_cuenta in self.__numeros_cuenta:
+                self.__numeros_cuenta.remove(num_cuenta)
             print("Alguno de los datos ingresados no es correcto. Intenta nuevamente.")
 
     def insertar_nuevo_profesor(self):
@@ -207,7 +208,8 @@ class Directorio:
             self.__agregar_a_lista(nuevo_profesor)
             print('Profesor agregado\n')
         except ValueError:
-            self.__numeros_profesor.remove(num_profesor)
+            if num_profesor in self.__numeros_profesor:
+                self.__numeros_profesor.remove(num_profesor)
             print("Alguno de los datos ingresados no es correcto. Intenta nuevamente.")
 
     def insertar_nuevo_coordinador(self):
@@ -254,7 +256,8 @@ class Directorio:
             self.__agregar_a_lista(nuevo_coordinador)
             print('Coordinador agregado\n')
         except ValueError:
-            self.__numeros_empleado.remove(num_empleado)
+            if num_empleado in self.__numeros_empleado:
+                self.__numeros_empleado.remove(num_empleado)
             print("Alguno de los datos ingresados no es correcto. Intenta nuevamente.")
 
     def buscar_nodo(self, persona) -> object:
@@ -502,8 +505,8 @@ class Directorio:
                                 except ValueError:
                                     print('El numero de cuenta del alumno, tiene que ser un entero')
                             self.__numeros_cuenta.remove(alumno.num_cuenta)
-                            alumno.__num_cuenta = nuevonumcuenta
-                            self.__numeros_cuenta.add(alumno.num_cuenta)
+                            alumno.num_cuenta = nuevonumcuenta
+                            self.__numeros_cuenta.add(nuevonumcuenta)
                             print('Numero de Cuenta Actualizado \n')
                             opcion = ''
 
@@ -719,7 +722,7 @@ class Directorio:
         coordinadores = ''
 
         while actual is not None:
-            if isinstance(actual.elemento, (cPr.Profesor, cC.Coordinador)):
+            if isinstance(actual.elemento, cPr.Profesor) or isinstance(actual.elemento, cC.Coordinador):
                 if actual.elemento.sueldo == sueldo:
                     if isinstance(actual.elemento, cPr.Profesor):
                         profesores += str(actual.elemento) + '\n'
@@ -912,7 +915,7 @@ class Directorio:
         if alumnos or profesores:  # coordinadores no tienen atributo carrera
             print('\nALUMNOS:\n' + alumnos + "\nPROFESORES:\n" + profesores + "\nCOORDINADORES:\n" + coordinadores)
         else:
-            print(f"No se encontró a la persona con el correo {carrera_particular}.")
+            print(f"No se encontró a la persona con la carrera {carrera_particular}.")
 
     def mostrar_alumnos_o_profesores(self, eleccion):
         """

@@ -4,6 +4,8 @@
 # Fecha: 11-09-2024
 
 import clasePersona as cP
+import claseProfesor as cPr
+import claseCoordinador as cC
 
 
 # Ejemplos de comparadores
@@ -15,14 +17,7 @@ def edad_ascendente(a: cP.Persona, b: cP.Persona) -> int:
     :return: Valor positivo si la edad de a es menor que b, cero si son iguales,
              negativo en otro caso
     """
-    if a == b:
-        return 0
-    elif a is None:
-        return -1
-    elif b is None:
-        return 1
-    else:
-        return a.edad() - b.edad()
+    return a.edad() - b.edad()
 
 
 def salario_descendente(a: cP.Persona, b: cP.Persona) -> float:
@@ -33,14 +28,11 @@ def salario_descendente(a: cP.Persona, b: cP.Persona) -> float:
     :return: Valor positivo si el salario de b es mayor que a, cero si son iguales,
              negativo en otro caso
     """
-    if a == b:
-        return 0
-    elif a is None:
-        return -1
-    elif b is None:
-        return 1
+    # solo coordinadores y profesores tienen salarios
+    if isinstance(a, cPr.Profesor or cC.Coordinador) and isinstance(b, cPr.Profesor or cC.Coordinador):
+        return b.sueldo - a.sueldo
     else:
-        return b.salario - a.salario
+        return -1  # si alguno de los dos es alumno
 
 
 def salario_nombre(a: cP.Persona, b: cP.Persona):
@@ -52,20 +44,14 @@ def salario_nombre(a: cP.Persona, b: cP.Persona):
              b es mayo que a. Si es el mismo salario, regresa la relación de orden de los
              Empleados con respecto al orden natural de las cadenas.
     """
-    if a == b:
-        return 0
-    elif a is None:
-        return -1
-    elif b is None:
-        return 1
-    else:
-        dif_salario = a.salario - b.salario
+    if isinstance(a, cPr.Profesor or cC.Coordinador) and isinstance(b, cPr.Profesor or cC.Coordinador):
+        dif_salario = b.sueldo - a.sueldo
         if dif_salario == 0:
-            fullname1 = a.nombre + " " + a.apellidos
-            fullname2 = b.nombre + " " + b.apellidos
-            return __compare_strings(fullname1, fullname2)
+            return __compare_strings(a.nombre_completo, b.nombre_completo)
         else:
             return dif_salario
+    else:  # si alguno es alumno solo comparo por nombre
+        return __compare_strings(a.nombre_completo, b.nombre_completo)
 
 
 def edad_nombre(a: cP.Persona, b: cP.Persona):
@@ -77,20 +63,11 @@ def edad_nombre(a: cP.Persona, b: cP.Persona):
              b es mayo que a. Si es la misma edad, regresa la relación de orden de los
              Empleados con respecto al orden natural de las cadenas.
     """
-    if a == b:
-        return 0
-    elif a is None:
-        return -1
-    elif b is None:
-        return 1
+    dif_edad = a.edad() - b.edad()
+    if dif_edad == 0:
+        return __compare_strings(a.nombre_completo, b.nombre_completo)
     else:
-        dif_edad = a.edad() - b.edad()
-        if dif_edad == 0:
-            fullname1 = a.nombre + " " + a.apellidos
-            fullname2 = b.nombre + " " + b.apellidos
-            return __compare_strings(fullname1, fullname2)
-        else:
-            return dif_edad
+        return dif_edad
 
 
 def nombre_ascendente(a: cP.Persona.nombre_completo, b: cP.Persona.nombre_completo):
@@ -101,7 +78,7 @@ def nombre_ascendente(a: cP.Persona.nombre_completo, b: cP.Persona.nombre_comple
     :return: Valor positivo si el nombre de a es mayor que b, negativo si el nombre de
              b es mayo que a. Si es el mismo nombre, regresa un 0.
     """
-    dif_nombre = __compare_strings(a, b)
+    dif_nombre = __compare_strings(a.nombre_completo, b.nombre_completo)
     return dif_nombre
 
 
