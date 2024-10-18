@@ -445,7 +445,6 @@ if __name__ == "__main__":
                         opcionn = ''
                     case 'S':  # 'S. Guardar y Salir \n').upper()
                         directorio.escritura_csvs(nom)
-                        print(f'El directorio se guardo en el archivo csv "{nom}"')
                         print("Hasta luego")
         case 'S':
             print('Hasta luego.')
