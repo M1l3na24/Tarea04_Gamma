@@ -9,6 +9,9 @@ import Listable as Li
 
 
 class Lista(Li.Listable):
+    """
+    Clase que representa una lista simplemente ligada con centinela al inicio.
+    """
     def __init__(self, comparador: callable):
         """
         Constructor por omisión de la clase Lista
@@ -34,6 +37,10 @@ class Lista(Li.Listable):
         self.__inicio = nodo
 
     def agregar(self, elemento):
+        """
+        Método que permite agregar un elemento.
+        :param elemento: El elemento a agregar
+        """
         if self.esta_vacia():
             self.__inicio = No.Nodo(elemento, self.__inicio)
         else:
