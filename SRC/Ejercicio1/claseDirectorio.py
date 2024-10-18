@@ -10,6 +10,7 @@ import claseAlumno as cA
 import claseProfesor as cPr
 import claseCoordinador as cC
 import Comparadores as Comp
+from datetime import datetime
 
 
 def menu_actualizar_coordinador() -> str:
@@ -881,16 +882,20 @@ class Directorio:
         Busca un contacto en el directorio a partir de su fecha de cumpleaños.
         Nota: Imprime el contacto si es encontrado, o un mensaje si no lo es
         :param cumpleanios: str - Fecha de cumpleaños del contacto.
-        :return: Imprime el contacto si es encontrado, o un mensaje si no lo es.
+        :return: Imprime y devuelve el contacto si es encontrado, o un mensaje si no lo es.
         """
-        actual = self.__lista.inicio
-        while actual is not None:
-            if actual.elemento.fecha_cumpleanios == cumpleanios:
-                print(actual.elemento)
-                return actual.elemento
-            actual = actual.siguiente
-        print(f"No se encontró un contacto con cumpleaños {cumpleanios}")
-        return None
+        try:
+            cumpleanios = datetime.strptime(cumpleanios, "%d/%m/%Y").date()
+            actual = self.__lista.inicio
+            while actual is not None:
+                if actual.elemento.fecha_cumpleanios == cumpleanios:
+                    print(actual.elemento)
+                    return actual.elemento
+                actual = actual.siguiente
+            print(f"No se encontró un contacto con cumpleaños {cumpleanios}")
+            return None
+        except ValueError:
+            raise ValueError
 
     def __str__(self) -> (str, str, str):
         """
