@@ -172,7 +172,7 @@ class Directorio:
             try:
                 num_profesor = int(input('Escribe el numero de Profesor: '))
                 if num_profesor not in self.__numeros_profesor:
-                    self.__numeros_cuenta.add(num_profesor)
+                    self.__numeros_profesor.add(num_profesor)
                     break
                 else:
                     print(f"El numero de profesor {num_profesor} ya existe, escribe otro")
@@ -187,8 +187,12 @@ class Directorio:
         carrera = input('Escribe la carrera en la que imparte materias el profesor: ')
 
         grupos = input('Escribe los grupos del profesor separados por comas: ')
-        sueldo = float(input('Escribe el sueldo del profesor: '))
-
+        while True:
+            try:
+                sueldo = float(input('Escribe el sueldo del profesor: '))
+                break
+            except ValueError:
+                print('El sueldo, tiene que ser un numero')
         while True:
             try:
                 celular = int(input('Escribe el celular del profesor: '))
@@ -223,7 +227,7 @@ class Directorio:
             try:
                 num_empleado = int(input('Escribe el numero de Empleado: '))
                 if num_empleado not in self.__numeros_empleado:
-                    self.__numeros_cuenta.add(num_empleado)
+                    self.__numeros_empleado.add(num_empleado)
                     break
                 else:
                     print(f"El numero de empleado {num_empleado} ya existe, escribe otro")
@@ -236,7 +240,12 @@ class Directorio:
         correo = input('Escribe el correo del Coordinador: ')
         dept = input('Escribe el departamento de adscripcion del Coordinador: ')
         carrera_coor = input('Escribe la carrera que coordina: ')
-        sueldo = float(input('Escribe el sueldo del Coordinador: '))
+        while True:
+            try:
+                sueldo = float(input('Escribe el sueldo del Coordinador: '))
+                break
+            except ValueError:
+                print('El sueldo, tiene que ser un numero')
         while True:
             try:
                 celular = int(input('Escribe el celular del Coordinador: '))
@@ -348,22 +357,39 @@ class Directorio:
 
     def escritura_csvs(self, nombre: str):
         """
-        Método que guarda la información del directorio en un archivo CSV.
+        Metodo que guarda la informacion del directorio en un archivo CSV.
         Se itera sobre la lista para guardar los datos de cada persona.
         :param: nombre: Nombre del archivo CSV.
         """
         nombre_archivo = nombre
-        f = open(nombre_archivo, 'w')
-        it1 = iter(self.__lista)
-        try:
-            while True:
-                cadena = ''
-                contacto = next(it1)
-                cadena += str(contacto) + "\n"
-                f.write(cadena)
-        except StopIteration:
-            pass
-        f.close()
+        with open(nombre_archivo, 'w') as f:
+            it1 = iter(self.__lista)
+            try:
+                while True:
+                    cadena = ''
+                    contacto = next(it1)
+
+                    if isinstance(contacto, cA.Alumno):
+                        cadena += (f"A,{contacto.nombre_completo},{contacto.celular},"
+                                   f"{contacto.fecha_cumpleanios},"
+                                   f"{contacto.email},{contacto.num_cuenta},\n {contacto.carrera},"
+                                   f"{' '.join(contacto.materias)},{contacto.semestre}\n")
+
+                    elif isinstance(contacto, cPr.Profesor):
+                        cadena += (f"P,{contacto.nombre_completo},{contacto.celular},"
+                                   f"{contacto.fecha_cumpleanios},{contacto.email},"
+                                   f"{contacto.num_profesor},{contacto.tel_oficina},{contacto.sueldo:.2f},"
+                                   f"{contacto.dept_ads},{contacto.carrera},{' '.join(contacto.grupos)}\n")
+
+                    elif isinstance(contacto, cC.Coordinador):
+                        cadena += (f"C,{contacto.nombre_completo},{contacto.celular},"
+                                   f"{contacto.fecha_cumpleanios},{contacto.email},"
+                                   f"{contacto.num_empleado},{contacto.tel_oficina},{contacto.sueldo:.2f},"
+                                   f"{contacto.dept_ads},{contacto.carrera_coordina}\n")
+                    f.write(cadena)
+            except StopIteration:
+                pass
+
         print(f"Archivo {nombre_archivo} guardado correctamente.")
 
 # Reedefinir el orden de la lista
@@ -405,7 +431,7 @@ class Directorio:
         else:
             print('No es una entrada válida')
             return
-        if self.__lista.esta_vacia():
+        if self.esta_vacio():
             print("No hay contactos.")
             return
         actual = self.__lista.inicio
@@ -428,10 +454,8 @@ class Directorio:
         if self.esta_vacio():
             print("No hay contactos.")
             return
-
         actual = self.__lista.inicio
         encontrado = False
-
         while actual is not None:
             if actual.elemento.nombre_completo == nombre:  # Encontramos el contacto
                 # Eliminamos el nodo al saltar la referencia
@@ -441,7 +465,6 @@ class Directorio:
                 print(f"El contacto con el nombre: '{nombre}' ha sido eliminado.")
                 break
             actual = actual.siguiente
-
         if not encontrado:
             print(f"No se encontró contacto con el nombre completo: {nombre}")
 
@@ -832,32 +855,44 @@ class Directorio:
         Elimina los datos de un contacto a partir del numero de celular.
         :param celular:int - El celular del contacto que se va a eliminar.
         """
-        # Buscamos el contacto por número de celular
+        if self.esta_vacio():
+            print("No hay contactos.")
+            return
         actual = self.__lista.inicio
+        encontrado = False
         while actual is not None:
-            if actual.elemento.celular == celular:
-                # Usamos el método eliminar de la clase Lista
-                self.__lista.eliminar(actual)
-                print(f"El contacto con el número de celular '{celular}' ha sido eliminado.")
-                return
+            if actual.elemento.celular == celular:  # Encontramos el contacto
+                # Eliminamos el nodo al saltar la referencia
+                self.eliminar(actual.elemento)
+                self.__num_personas -= 1  # Actualizamos el contador
+                encontrado = True
+                print(f"El contacto con el nombre: '{celular}' ha sido eliminado.")
+                break
             actual = actual.siguiente
-        print(f"No se encontró contacto con el número de celular: {celular}")
+        if not encontrado:
+            print(f"No se encontró contacto con el nombre completo: {celular}")
 
     def eliminar_email(self, correo):
         """
         Elimina los datos de un contacto a partir del correo electronico.
         :param: correo:str - el correo de la persona que busco.
         """
-        # Buscamos el contacto con ese correo
+        if self.esta_vacio():
+            print("No hay contactos.")
+            return
         actual = self.__lista.inicio
+        encontrado = False
         while actual is not None:
-            if actual.elemento.email == correo:
-                # Usamos el método eliminar de la clase Lista
-                self.eliminar(actual)
-                print(f"El contacto con el número de celular '{correo}' ha sido eliminado.")
-                return
+            if actual.elemento.email == correo:  # Encontramos el contacto
+                # Eliminamos el nodo al saltar la referencia
+                self.eliminar(actual.elemento)
+                self.__num_personas -= 1  # Actualizamos el contador
+                encontrado = True
+                print(f"El contacto con el nombre: '{correo}' ha sido eliminado.")
+                break
             actual = actual.siguiente
-        print(f"No se encontró contacto con el número de celular: {correo}")
+        if not encontrado:
+            print(f"No se encontró contacto con el nombre completo: {correo}")
 
     def buscar_contacto_celular(self, celular: int):
         """
@@ -904,7 +939,7 @@ class Directorio:
         :return: Una cadena de caracteres que incluiran la informacion de contacto.
         """
         cadena = ''
-        if not self.__lista.esta_vacia():
+        if not self.esta_vacio():
             alumnos = []
             profesores = []
             coordinadores = []
@@ -946,7 +981,7 @@ class Directorio:
         Obs: por como fue definido la clase Persona, los objetos persona
         tienen un email valido.
         """
-        if self.__lista.esta_vacia():
+        if self.esta_vacio():
             print("No hay contactos.")
             return
         else:
@@ -980,7 +1015,7 @@ class Directorio:
         alumnos = ''
         profesores = ''
         coordinadores = ''
-        if not self.__lista.esta_vacia():
+        if not self.esta_vacio():
             actual = self.__lista.inicio
             while actual is not None:
                 if isinstance(actual.elemento, cA.Alumno) or isinstance(actual.elemento, cPr.Profesor):
@@ -996,13 +1031,13 @@ class Directorio:
         else:
             print(f"No se encontró a la persona con la carrera {carrera_particular}.")
 
-    def mostrar_alumnos_o_profesores(self, eleccion):
+    def mostrar_alumnos_o_profesores(self, eleccion: int):
         """
         Muestra solo los alumnos o solo los maestros en orden
         Esto segun la eleccion del usuario
         :param eleccion: 0 si alumnos, 1 si maestros
         """
-        if not self.__lista.esta_vacia():
+        if not self.esta_vacio():
             actual = self.__lista.inicio
             if eleccion == 0:
                 alumnos = ''

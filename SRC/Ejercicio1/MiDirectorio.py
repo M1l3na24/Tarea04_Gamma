@@ -221,9 +221,14 @@ if __name__ == "__main__":
                                     carrera = input("Escribe la carrera relacionada al contacto que deseas buscar: ")
                                     directorio.mostrar_contactos_por_carrera(carrera)
                                 case '6':
-                                    eleccion = int(input("Escribe 0 si deseas ver a los alumnos "
-                                                         "o 1 si deseas ver a los profesores: "))
-                                    directorio.mostrar_alumnos_o_profesores(eleccion)
+                                    while True:
+                                        try:
+                                            eleccion = int(input("Escribe 0 si deseas ver a los alumnos "
+                                                                 "o 1 si deseas ver a los profesores: "))
+                                            directorio.mostrar_alumnos_o_profesores(eleccion)
+                                            break
+                                        except ValueError:
+                                            print("La opcion debe ser 0 o 1.")
                                 case 'S':
                                     print('Regresando al menu principal')
                         opcionn = ''
@@ -349,9 +354,14 @@ if __name__ == "__main__":
                                     carrera = input("Escribe la carrera relacionada al contacto que deseas buscar: ")
                                     directorio.mostrar_contactos_por_carrera(carrera)
                                 case '6':
-                                    eleccion = int(input("Escribe 0 si deseas ver a los alumnos "
-                                                         "o 1 si deseas ver a los profesores: "))
-                                    directorio.mostrar_alumnos_o_profesores(eleccion)
+                                    while True:
+                                        try:
+                                            eleccion = int(input("Escribe 0 si deseas ver a los alumnos "
+                                                                 "o 1 si deseas ver a los profesores: "))
+                                            directorio.mostrar_alumnos_o_profesores(eleccion)
+                                            break
+                                        except ValueError:
+                                            print("La opcion debe ser 0 o 1.")
                                 case 'S':
                                     print('Regresando al menu principal')
                         opcionn = ''
