@@ -240,9 +240,14 @@ if __name__ == "__main__":
                                     nombre = input("Escribe el nombre del contacto que deseas eliminar: ")
                                     directorio.eliminar_contacto(nombre)
                                 case '2':
-                                    celular = int(input("Escribe el número de celular del "
-                                                        "contacto que deseas eliminar: "))
-                                    directorio.eliminar_cel(celular)
+                                    while True:
+                                        try:
+                                            celular = int(input("Escribe el número de celular del "
+                                                                "contacto que deseas eliminar: "))
+                                            directorio.eliminar_cel(celular)
+                                            break
+                                        except ValueError:
+                                            print("El celular debe ser un entero")
                                 case '3':
                                     email = input("Escribe el correo electrónico del contacto que deseas eliminar: ")
                                     directorio.eliminar_email(email)
@@ -373,9 +378,14 @@ if __name__ == "__main__":
                                     nombre = input("Escribe el nombre del contacto que deseas eliminar: ")
                                     directorio.eliminar_contacto(nombre)
                                 case '2':
-                                    celular = int(input("Escribe el número de celular del "
-                                                        "contacto que deseas eliminar: "))
-                                    directorio.eliminar_cel(celular)
+                                    while True:
+                                        try:
+                                            celular = int(input("Escribe el número de celular del "
+                                                                "contacto que deseas eliminar: "))
+                                            directorio.eliminar_cel(celular)
+                                            break
+                                        except ValueError:
+                                            print("El celular debe ser un entero")
                                 case '3':
                                     email = input("Escribe el correo electrónico del contacto que deseas eliminar: ")
                                     directorio.eliminar_email(email)
