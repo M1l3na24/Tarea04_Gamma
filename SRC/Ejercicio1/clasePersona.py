@@ -96,7 +96,7 @@ class Persona:
         Método para modificar la fecha de cumpleanios de la Persona
         :param fecha_cumpleanios: La fecha de cumpleanios de la Persona
         """
-        self.__fecha_cumpleanios = fecha_cumpleanios
+        self.__fecha_cumpleanios = datetime.strptime(fecha_cumpleanios, "%d/%m/%Y").date()
 
     @email.setter
     def email(self, email: str):
@@ -106,10 +106,12 @@ class Persona:
         """
         if validate_email(email):  # Si devuelve True, el correo es valido
             self.__email = email
-        else:  # El correo no es valido y se define un correo generico
+        else:
+            # El correo no es valido y se define un correo generico
             print("El correo no es valido!\n"
                   f"Se conservo el mismo email: {self.__email}")
             self.__email = self.__email
+            raise ValueError
 
     def edad(self):
         """

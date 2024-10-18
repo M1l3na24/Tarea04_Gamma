@@ -532,7 +532,7 @@ class Directorio:
                             opcion = ''
 
                         case "7":
-                            nuevamaterias = list(input('Escribe la nueva lista de materias del alumno: '))
+                            nuevamaterias = list(input('Escribe la nueva lista de materias del alumno: ').split())
                             alumno.materias = list(nuevamaterias)
                             print('Materias Actualizadas \n')
                             opcion = ''
@@ -540,12 +540,12 @@ class Directorio:
                         case "8":
                             while True:
                                 try:
-                                    nuevsemestre = int(input('Escribe la nueva lista de materias del alumno: '))
+                                    nuevsemestre = int(input('Escribe el nuevo semestre del alumno: '))
                                     alumno.semestre = nuevsemestre
                                     print('Semestre Actualizado \n')
                                     break
                                 except ValueError:
-                                    print('El numero de cuenta del alumno, tiene que ser un entero\n')
+                                    print('El semestre del alumno, tiene que ser un entero\n')
                             opcion = ''
 
                         case "S":
@@ -647,20 +647,21 @@ class Directorio:
 
                         case "8":
                             nuevodeptads = input('Escribe el nuevo Dept. de Ads. del profesor: ')
-                            profesor.__dept_ads = nuevodeptads
+                            profesor.dept_ads = nuevodeptads
                             print('Dept. de Ads. Actualizado \n')
                             opcion = ''
 
                         case "9":
                             nuevocarrera = input('Escribe la nueva carrera donde imparte materias el profesor: ')
-                            profesor.__carrera = nuevocarrera
+                            profesor.carrera = nuevocarrera
                             print('Carrera Actualizada \n')
                             opcion = ''
 
                         case '10':
-                            nuevgrup = list(input('Escribe la nueva lista de grupos del profesor: '))
-                            profesor.__grupos = list(nuevgrup)
-                            print('Materias Actualizadas \n')
+                            nuevgrup = list(input('Escribe la nueva lista de grupos del profesor separando los grupos'
+                                                  'por comas: ').split())
+                            profesor.grupos = list(nuevgrup)
+                            print('Grupos Actualizados \n')
                             opcion = ''
 
                         case "S":
