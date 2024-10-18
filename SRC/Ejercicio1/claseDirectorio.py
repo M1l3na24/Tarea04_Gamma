@@ -1,7 +1,7 @@
 # Programa: claseDirectorio.py
 # Objetivo: Programa que define la clase Directorio
 # Autores: Milena Rivera, Carlos Barrera, Isaac Garrido, Mayela Rosas
-# Version: 16-10-2024
+# Version: 17-10-2024
 
 
 import csv
@@ -420,7 +420,6 @@ class Directorio:
         :param rol - tipo de objeto
         :return un string con la informacion completa del contacto con esas caracteristicas.
         """
-        # self.ordenar_directorio(0, self.__num_personas - 1, self.nombre_comparador)
         # Determinar la clase de la persona según el rol
         if rol == 'alumno':
             rol_clase = cA.Alumno

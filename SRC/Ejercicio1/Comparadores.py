@@ -1,7 +1,7 @@
 # Programa: Comparadores.py
 # Objetivo: Definir una serie de comparadores para la Lista Ordenada
-# Autor: Gerardo
-# Fecha: 11-09-2024
+# Autores: Milena Rivera, Carlos Barrera, Isaac Garrido, Mayela Rosas
+# Version: 17-10-2024
 
 import clasePersona as cP
 import claseProfesor as cPr

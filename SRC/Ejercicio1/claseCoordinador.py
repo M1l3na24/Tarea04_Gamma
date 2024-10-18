@@ -1,7 +1,7 @@
 # Programa: claseCoordinador.py
 # Objetivo: Clase que modela un Coordinador que hereda de Persona
 # Autores: Milena Rivera, Carlos Barrera, Isaac Garrido, Mayela Rosas
-# Version: 09-09-2024
+# Version: 17-10-2024
 
 import clasePersona as cP
 from locale import currency, setlocale, LC_MONETARY

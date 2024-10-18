@@ -1,7 +1,7 @@
 # Programa: Listable.py
 # Objetivo: Clase abstracta que permite simular la interfaz para el TAD Lista
 # Autor: Milena Rivera, Carlos Barrera, Isaac Garrido, Mayela Rosas
-# Version: 18-10-2024
+# Version: 17-10-2024
 
 from abc import abstractmethod, ABCMeta
 from typing import TypeVar

@@ -1,7 +1,7 @@
 # Programa: clasePersona.py
 # Objetivo: Clase que modela una Persona
 # Autores: Milena Rivera, Carlos Barrera, Isaac Garrido, Mayela Rosas
-# Fecha: 09-09-2024
+# Version: 17-10-2024
 
 from datetime import date, datetime
 from validate_email import validate_email

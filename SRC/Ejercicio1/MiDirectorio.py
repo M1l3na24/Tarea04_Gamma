@@ -1,6 +1,6 @@
 # Programa: MiDirectorio.py
 # Autor: Milena Rivera, Carlos Barrera, Isaac Garrido, Mayela Rosas
-# Fecha: 15/10/2024
+# Fecha: 17/10/2024
 # Version: 2
 # Descripcion: Programa que prueba el funcionamiento de la clase Directorio
 
