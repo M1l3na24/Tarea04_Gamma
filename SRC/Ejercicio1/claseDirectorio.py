@@ -373,22 +373,25 @@ class Directorio:
                         contacto = next(it1)
 
                         if isinstance(contacto, cA.Alumno):
+                            fecha_formateada = contacto.fecha_cumpleanios.strftime('%d/%m/%Y')
                             cadena += (f"A,{contacto.nombre_completo},{contacto.celular},"
-                                        f"{contacto.fecha_cumpleanios},"
-                                        f"{contacto.email},{contacto.num_cuenta}, {contacto.carrera},"
-                                        f"{' '.join(contacto.materias)},{contacto.semestre}\n")
+                                       f"{fecha_formateada},"
+                                       f"{contacto.email},{contacto.num_cuenta}, {contacto.carrera},"
+                                       f"{' '.join(contacto.materias)},{contacto.semestre}\n")
 
                         elif isinstance(contacto, cPr.Profesor):
+                            fecha_formateada = contacto.fecha_cumpleanios.strftime('%d/%m/%Y')
                             cadena += (f"P,{contacto.nombre_completo},{contacto.celular},"
-                                        f"{contacto.fecha_cumpleanios},{contacto.email},"
-                                        f"{contacto.num_profesor},{contacto.tel_oficina},{contacto.sueldo:.2f},"
-                                        f"{contacto.dept_ads},{contacto.carrera},{' '.join(contacto.grupos)}\n")
+                                       f"{str(fecha_formateada)},{contacto.email},"
+                                       f"{contacto.num_profesor},{contacto.tel_oficina},{contacto.sueldo:.2f},"
+                                       f"{contacto.dept_ads},{contacto.carrera},{' '.join(contacto.grupos)}\n")
 
                         elif isinstance(contacto, cC.Coordinador):
+                            fecha_formateada = contacto.fecha_cumpleanios.strftime('%d/%m/%Y')
                             cadena += (f"C,{contacto.nombre_completo},{contacto.celular},"
-                                        f"{contacto.fecha_cumpleanios},{contacto.email},"
-                                        f"{contacto.num_empleado},{contacto.tel_oficina},{contacto.sueldo:.2f},"
-                                        f"{contacto.dept_ads},{contacto.carrera_coordina}\n")
+                                       f"{str(fecha_formateada)},{contacto.email},"
+                                       f"{contacto.num_empleado},{contacto.tel_oficina},{contacto.sueldo:.2f},"
+                                       f"{contacto.dept_ads},{contacto.carrera_coordina}\n")
                         f.write(cadena)
                 except StopIteration:
                     pass
