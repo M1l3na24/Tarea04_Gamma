@@ -343,6 +343,7 @@ class Directorio:
                 break
             except FileNotFoundError:
                 print(f"El archivo {nombre_archivo} no existe.")
+                raise FileNotFoundError
 
     def escritura_csvs(self, nombre: str):
         """

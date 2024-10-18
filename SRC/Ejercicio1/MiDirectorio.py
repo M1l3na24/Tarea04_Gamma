@@ -301,9 +301,14 @@ if __name__ == "__main__":
                     case "5":
                         directorio = cDir.Directorio(Comp.nombre_ascendente)
                         break
-            nom = input('Escribe el nombre del archivo con terminación .csv que deseas abrir: ')
-            directorio.lectura_csvs(nom)
-            print(directorio)
+            while True:
+                try:
+                    nom = input('Escribe el nombre del archivo con terminación .csv que deseas abrir: ')
+                    directorio.lectura_csvs(nom)
+                    print(directorio)
+                    break
+                except FileNotFoundError:
+                    pass
             opcionn = ''
             while opcionn != 'S':
                 opcionn = menu_principal()
