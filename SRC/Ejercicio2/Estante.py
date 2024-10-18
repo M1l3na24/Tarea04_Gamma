@@ -8,6 +8,9 @@ import Repisa_Pila as Rp
 
 
 class Estante:
+    """
+    Clase que modela un objeto Estante.
+    """
     def __init__(self):
         """
         Constructor de la clase Estante.

@@ -9,6 +9,9 @@ import Interfaz_Listable as Il
 
 
 class RepisaLista(Il.Listable):
+    """
+    Clase que modela una repisa del tipo Lista.
+    """
     def __init__(self):
         """
         Constructor por omision de una repisa com Lista doblemente ligada.

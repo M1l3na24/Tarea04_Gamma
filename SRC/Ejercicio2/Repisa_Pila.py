@@ -9,6 +9,9 @@ import Clase_Nodo as Cn
 
 
 class RepisaPila(Ia.Apilable):
+    """
+    Clase que modela una repisa del tipo Pila.
+    """
     def __init__(self):
         """
         Constructor que inicializa una repisa vacia como una Pila.
