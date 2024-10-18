@@ -272,11 +272,24 @@ if __name__ == "__main__":
                             opcionn = menu_buscar()
                             match opcionn:
                                 case '1':
-                                    cum = input("Escribe el cumpleaños del contacto que deseas buscar: ")
-                                    directorio.buscar_contacto_cum(cum)
+                                    while True:
+                                        try:
+                                            cum = input("Escribe el cumpleaños del contacto que deseas buscar "
+                                                        "(dia/mes/anio): ")
+                                            directorio.buscar_contacto_cum(cum)
+                                            break
+                                        except ValueError:
+                                            print("Entrada invalida.")
+
                                 case "2":
-                                    cel = int(input("Escribe el número de celular del contacto que deseas buscar: "))
-                                    directorio.buscar_contacto_celular(cel)
+                                    while True:
+                                        try:
+                                            cel = int(input(
+                                                "Escribe el número de celular del contacto que deseas buscar: "))
+                                            directorio.buscar_contacto_celular(cel)
+                                            break
+                                        except ValueError:
+                                            print("El celular debe ser un entero")
                         opcionn = ''
                     case 'S':  # 'S. Guardar y Salir \n').upper()
                         nombre = input('Escribe el nombre del archivo con terminación csv con el que deseas guardar: ')
@@ -420,8 +433,15 @@ if __name__ == "__main__":
                                             print("Entrada invalida.")
 
                                 case "2":
-                                    cel = int(input("Escribe el número de celular del contacto que deseas buscar: "))
-                                    directorio.buscar_contacto_celular(cel)
+                                    while True:
+                                        try:
+                                            cel = int(input(
+                                                "Escribe el número de celular del contacto que deseas buscar: "))
+                                            directorio.buscar_contacto_celular(cel)
+                                            break
+                                        except ValueError:
+                                            print("El celular debe ser un entero")
+
                         opcionn = ''
                     case 'S':  # 'S. Guardar y Salir \n').upper()
                         directorio.escritura_csvs(nom)
