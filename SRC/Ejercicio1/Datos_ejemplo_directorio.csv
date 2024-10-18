@@ -1,6 +1,4 @@
-Profesor: Ana Sánches | Celular: 55435676 | Fecha cumpleanios: 1993-06-06 | Email: 55435676 | Num_profesor: 13453 | Tel_oficina: 8264843 |  Sueldo: $39,269.73 | Dept. Ads: Biologia | Carrera: Fisica | Grupos: ['Biologia', 'Marina'] |
-Profesor: Ana Sánchez | Celular: 55435676 | Fecha cumpleanios: 1980-06-06 | Email: 55435676 | Num_profesor: 13453 | Tel_oficina: 8264843 |  Sueldo: $10,000.20 | Dept. Ads: Biologia | Carrera: Fisica | Grupos: ['Biologia', 'Marina'] |
-Alumno: Juan López | Celular: 5532134532 | Fecha cumpleanios: 1990-03-26 | Email: 5532134532 | Num_cuenta: 39269 | Carrera: Matematicas Aplicadas | Materias: ['algebra', 'calculo', 'mates', 'discretas'] | Semestre: 3 |
-Profesor: Manik | Celular: 123 | Fecha cumpleanios: 1000-12-12 | Email: 123 | Num_profesor: 1 | Tel_oficina: 123 |  Sueldo: $123.00 | Dept. Ads: mate | Carrera: mate | Grupos: ['lineal', ' discretas'] |
-Coordinador: Marco | Celular: 123 | Fecha cumpleanios: 1000-12-12 | Email: 123 | Num_empleado: 2 | Tel_oficina: 123 |  Sueldo: $123.00 | Dept. Ads: mate | Carrera Coordina: mate |
-Coordinador: Pedro Hernández | Celular: 552443277 | Fecha cumpleanios: 2004-01-03 | Email: 552443277 | Num_empleado: 245783 | Tel_oficina: 2387443 |  Sueldo: $31,838.93 | Dept. Ads: Matematicas | Carrera Coordina: Biologia |
+A,Juan López,5532134532,26/03/1990,acackett1a@imageshack.us,39269,Matematicas Aplicadas,algebra calculo mates discretas,3
+C,Pedro Hernández,552443277,03/01/2004,glattey1@howstuffworks.com,245783,02387443,31838.93,Matematicas,Biologia
+P,Ana Sánchez,55435676,06/06/1980,mlambourne2@discovery.com,13453,8264843,10000.2,Biologia,Fisica,Biologia Marina,sustentabilidad bioetica
+P,Ana Sánches,55435676,06/06/1993,mlambourne2@discovery.com,13453,8264843,39269.73,Biologia,Fisica,Biologia Marina,sustentabilidad bioetica

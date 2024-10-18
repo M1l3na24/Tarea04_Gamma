@@ -372,7 +372,7 @@ class Directorio:
                     if isinstance(contacto, cA.Alumno):
                         cadena += (f"A,{contacto.nombre_completo},{contacto.celular},"
                                    f"{contacto.fecha_cumpleanios},"
-                                   f"{contacto.email},{contacto.num_cuenta},\n {contacto.carrera},"
+                                   f"{contacto.email},{contacto.num_cuenta}, {contacto.carrera},"
                                    f"{' '.join(contacto.materias)},{contacto.semestre}\n")
 
                     elif isinstance(contacto, cPr.Profesor):
@@ -866,7 +866,7 @@ class Directorio:
                 self.eliminar(actual.elemento)
                 self.__num_personas -= 1  # Actualizamos el contador
                 encontrado = True
-                print(f"El contacto con el nombre: '{celular}' ha sido eliminado.")
+                print(f"El contacto con el celular: '{celular}' ha sido eliminado.")
                 break
             actual = actual.siguiente
         if not encontrado:
@@ -888,7 +888,7 @@ class Directorio:
                 self.eliminar(actual.elemento)
                 self.__num_personas -= 1  # Actualizamos el contador
                 encontrado = True
-                print(f"El contacto con el nombre: '{correo}' ha sido eliminado.")
+                print(f"El contacto con el email: '{correo}' ha sido eliminado.")
                 break
             actual = actual.siguiente
         if not encontrado:
