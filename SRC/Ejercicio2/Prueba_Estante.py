@@ -133,7 +133,7 @@ while True:
     match accion:
         case "1":  # Crear mi estante de 3 repisas
             estante = Es.Estante()
-            print("Se ha creado el estante")
+            print("Se ha creado el estante \n")
         case "2":  # Llenar la repisa 1 del estante desde archivo
             if estante is None:
                 print("Debes crear primero un Estante!\n")
@@ -152,18 +152,18 @@ while True:
                 estante.repisa2 = leer_archivo(archivo)
         case "4":   # Ordenar los libros en la tercer repisa
             if estante is None:
-                print("Deber crear primero un Estante")
+                print("Deber crear primero un Estante\n")
             else:
                 match menu_ordenar():
                     case "1":
                         estante.ordenar_en_repisa3(Cdl.titulo)
-                        print("Se han ordenado por titulo los libros de la repisa 1 y 2 en la repisa 3")
+                        print("Se han ordenado por titulo los libros de la repisa 1 y 2 en la repisa 3\n")
                     case '2':
                         estante.ordenar_en_repisa3(Cdl.autor)
-                        print("Se han ordenado por autor los libros de la repisa 1 y 2 en la repisa 3")
+                        print("Se han ordenado por autor los libros de la repisa 1 y 2 en la repisa 3\n")
                     case '3':
                         estante.ordenar_en_repisa3(Cdl.editorial)
-                        print("Se han ordenado por editorial los libros de la repisa 1 y 2 en la repisa 3")
+                        print("Se han ordenado por editorial los libros de la repisa 1 y 2 en la repisa 3\n")
         case "5":  # Agregar un libro a la repisa 1
             try:
                 if estante is None:
@@ -196,25 +196,25 @@ while True:
                 continue
         case "7":  # Vaciar la repisa 1
             if estante is None:
-                print("Debes crear primero un Estante")
+                print("Debes crear primero un Estante\n")
             else:
                 estante.repisa1.vaciar()
-                print("Se ha vaciado la repisa 1")
+                print("Se ha vaciado la repisa 1 \n")
         case "8":  # Vaciar la repisa 2
             if estante is None:
-                print("Debes crear primero un Estante")
+                print("Debes crear primero un Estante\n")
             else:
                 estante.repisa2.vaciar()
-                print("Se ha vaciado la repisa 2")
+                print("Se ha vaciado la repisa 2\n")
         case "9":  # Vaciar la repisa 3
             if estante is None:
-                print("Debes crear primero un Estante")
+                print("Debes crear primero un Estante\n")
             else:
                 estante.repisa3.vaciar()
-                print("Se ha vaciado la repisa 3")
+                print("Se ha vaciado la repisa 3\n")
         case "10":  # Vaciar el estante
             if estante is None:
-                print("Debes crear primero un Estante")
+                print("Debes crear primero un Estante\n")
             else:
                 estante = Es.Estante()
         case "11":  # Mostrar la repisa 1
