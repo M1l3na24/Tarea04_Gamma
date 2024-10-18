@@ -48,7 +48,7 @@ def escritura_csvs(l: Es.Estante):
     :param l: El estante de libros ordenados de la lista
     """
     if isinstance(l, Es.Estante):
-        nombre = 'Libros_Ordenados'
+        nombre = 'Libros_Ordenados.csv'
         f = open(nombre, 'w')
         encabezado = 'Titulo,Autor,Editorial,Anio\n'
         f.write(encabezado)
@@ -60,7 +60,7 @@ def escritura_csvs(l: Es.Estante):
                 cadena = cadena[:-1] + '\n'
                 f.write(cadena)
         f.close()
-        print(f'Se ha guardado la informacion en el archivo "{nombre}.csv"\n')
+        print(f'Se ha guardado la informacion en el archivo "{nombre}"\n')
     else:
         raise TypeError("El argumento debe ser un objeto RespisaLista")
 
@@ -159,10 +159,10 @@ while True:
                         estante.ordenar_en_repisa3(Cdl.titulo)
                         print("Se han ordenado por titulo los libros de la repisa 1 y 2 en la repisa 3")
                     case '2':
-                        estante.ordenar_en_repisa3(Cdl.editorial)
+                        estante.ordenar_en_repisa3(Cdl.autor)
                         print("Se han ordenado por editorial los libros de la repisa 1 y 2 en la repisa 3")
                     case '3':
-                        estante.ordenar_en_repisa3(Cdl.autor)
+                        estante.ordenar_en_repisa3(Cdl.editorial)
                         print("Se han ordenado por autor los libros de la repisa 1 y 2 en la repisa 3")
         case "5":  # Agregar un libro a la repisa 1
             try:

@@ -364,35 +364,37 @@ class Directorio:
         :param: nombre: Nombre del archivo CSV.
         """
         nombre_archivo = nombre
-        with open(nombre_archivo, 'w') as f:
-            it1 = iter(self.__lista)
-            try:
-                while True:
-                    cadena = ''
-                    contacto = next(it1)
+        try:
+            with open(nombre_archivo, 'w') as f:
+                it1 = iter(self.__lista)
+                try:
+                    while True:
+                        cadena = ''
+                        contacto = next(it1)
 
-                    if isinstance(contacto, cA.Alumno):
-                        cadena += (f"A,{contacto.nombre_completo},{contacto.celular},"
-                                   f"{contacto.fecha_cumpleanios},"
-                                   f"{contacto.email},{contacto.num_cuenta}, {contacto.carrera},"
-                                   f"{' '.join(contacto.materias)},{contacto.semestre}\n")
+                        if isinstance(contacto, cA.Alumno):
+                            cadena += (f"A,{contacto.nombre_completo},{contacto.celular},"
+                                       f"{contacto.fecha_cumpleanios},"
+                                       f"{contacto.email},{contacto.num_cuenta}, {contacto.carrera},"
+                                       f"{' '.join(contacto.materias)},{contacto.semestre}\n")
 
-                    elif isinstance(contacto, cPr.Profesor):
-                        cadena += (f"P,{contacto.nombre_completo},{contacto.celular},"
-                                   f"{contacto.fecha_cumpleanios},{contacto.email},"
-                                   f"{contacto.num_profesor},{contacto.tel_oficina},{contacto.sueldo:.2f},"
-                                   f"{contacto.dept_ads},{contacto.carrera},{' '.join(contacto.grupos)}\n")
+                        elif isinstance(contacto, cPr.Profesor):
+                            cadena += (f"P,{contacto.nombre_completo},{contacto.celular},"
+                                       f"{contacto.fecha_cumpleanios},{contacto.email},"
+                                       f"{contacto.num_profesor},{contacto.tel_oficina},{contacto.sueldo:.2f},"
+                                       f"{contacto.dept_ads},{contacto.carrera},{' '.join(contacto.grupos)}\n")
 
-                    elif isinstance(contacto, cC.Coordinador):
-                        cadena += (f"C,{contacto.nombre_completo},{contacto.celular},"
-                                   f"{contacto.fecha_cumpleanios},{contacto.email},"
-                                   f"{contacto.num_empleado},{contacto.tel_oficina},{contacto.sueldo:.2f},"
-                                   f"{contacto.dept_ads},{contacto.carrera_coordina}\n")
-                    f.write(cadena)
-            except StopIteration:
-                pass
+                        elif isinstance(contacto, cC.Coordinador):
+                            cadena += (f"C,{contacto.nombre_completo},{contacto.celular},"
+                                       f"{contacto.fecha_cumpleanios},{contacto.email},"
+                                       f"{contacto.num_empleado},{contacto.tel_oficina},{contacto.sueldo:.2f},"
+                                       f"{contacto.dept_ads},{contacto.carrera_coordina}\n")
+                        f.write(cadena)
+                except StopIteration:
+                    pass
+        except FileNotFoundError:
+            print("Nombre de archivo no valido")
 
-        print(f"Archivo {nombre_archivo} guardado correctamente.")
 
 # Reedefinir el orden de la lista
 
@@ -847,6 +849,13 @@ class Directorio:
         # Hay que asegurarnos que el arreglo no este vacío y el elemento exista
         if not self.esta_vacio() and self.contiene(contacto):
             self.__lista.eliminar(contacto)
+            # Eliminamos el numero de cuenta, empleado o profesor según el tipo de objeto
+            if isinstance(contacto, cA.Alumno):
+                self.__numeros_cuenta.remove(contacto.num_cuenta)
+            elif isinstance(contacto, cPr.Profesor):
+                self.__numeros_profesor.remove(contacto.num_profesor)
+            else:
+                self.__numeros_empleado.remove(contacto.num_empleado)
             print(f"El contacto {contacto} fue eliminado!\n")
         else:
             print(f"El elemento {contacto} no está en el Directorio!\n")
