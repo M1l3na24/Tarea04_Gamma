@@ -100,6 +100,8 @@ class Directorio:
         Se construye como un directorio nuevo: vacío por default.
         """
         # Crear una lista vacía con el comparador definido
+        # NOTA: La lista se mantiene siempre ordenada a partir del comparador,
+        # pero es posible modificar su orden despues de crearla con el metodo ordenar_directorio
         self.__lista = Li.Lista(comparador)
         self.__numeros_cuenta = set()
         self.__numeros_profesor = set()
